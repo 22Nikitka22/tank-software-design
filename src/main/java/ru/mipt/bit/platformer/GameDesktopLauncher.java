@@ -38,10 +38,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         Gdx.gl.glClearColor(0f, 0f, 0.2f, 1f);
         Gdx.gl.glClear(GL_COLOR_BUFFER_BIT);
 
-        float deltaTime = Gdx.graphics.getDeltaTime();
-
-        tank.move(tileMovement, deltaTime, tree.getCoordinates());
-
+        tank.move(tileMovement, tree.getCoordinates());
         level.render();
 
         batch.begin();

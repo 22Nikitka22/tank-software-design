@@ -34,28 +34,27 @@ public class Tank {
         this.rotation = 0f;
     }
 
-    public void move(TileMovement tileMovement, float deltaTime, GridPoint2 treeCoordinates) {
+    public void move(TileMovement tileMovement, GridPoint2 treeCoordinates) {
+        float deltaTime = Gdx.graphics.getDeltaTime();
+
         if (isEqual(movementProgress, 1f)) {
             if (Gdx.input.isKeyPressed(UP) || Gdx.input.isKeyPressed(W)) {
                 destinationCoordinates.y++;
                 rotation = 90f;
-                movementProgress = 0f;
             }
             if (Gdx.input.isKeyPressed(LEFT) || Gdx.input.isKeyPressed(A)) {
                 destinationCoordinates.x--;
                 rotation = -180f;
-                movementProgress = 0f;
             }
             if (Gdx.input.isKeyPressed(DOWN) || Gdx.input.isKeyPressed(S)) {
                 destinationCoordinates.y--;
                 rotation = -90f;
-                movementProgress = 0f;
             }
             if (Gdx.input.isKeyPressed(RIGHT) || Gdx.input.isKeyPressed(D)) {
                 destinationCoordinates.x++;
                 rotation = 0f;
-                movementProgress = 0f;
             }
+            movementProgress = 0f;
         }
 
         if (!treeCoordinates.equals(destinationCoordinates)) {
