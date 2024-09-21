@@ -23,15 +23,9 @@ public class Tree {
         moveRectangleAtTileCenter(layer, rectangle, coordinates);
     }
 
-    public void render(Batch batch) {
-        drawTextureRegionUnscaled(batch, graphics, rectangle, 0f);
-    }
+    public void render(Batch batch) { drawTextureRegionUnscaled(batch, graphics, rectangle, 0f); }
 
-    public void dispose() {
-        texture.dispose();
-    }
+    public void dispose() { texture.dispose(); }
 
-    public GridPoint2 getCoordinates() {
-        return coordinates;
-    }
+    public GridPoint2 getCoordinates() { return coordinates; }
 }

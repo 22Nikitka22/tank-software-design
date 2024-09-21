@@ -1,6 +1,7 @@
 package ru.mipt.bit.platformer.objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,7 +14,6 @@ import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
 
 public class Tank {
-
     private final Texture texture;
     private final TextureRegion graphics;
     private final Rectangle rectangle;
@@ -23,6 +23,8 @@ public class Tank {
     private final GridPoint2 destinationCoordinates;
     private float movementProgress = 1f;
     private float rotation;
+
+    private static final int[] DIRECTIONS = new int[]{Input.Keys.UP, Input.Keys.LEFT, Input.Keys.DOWN, Input.Keys.RIGHT};
 
     public Tank(String texturePath, GridPoint2 initialCoordinates, float movementSpeed) {
         this.texture = new Texture(texturePath);
@@ -38,40 +40,42 @@ public class Tank {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         if (isEqual(movementProgress, 1f)) {
-            if (Gdx.input.isKeyPressed(UP) || Gdx.input.isKeyPressed(W)) {
-                destinationCoordinates.y++;
-                rotation = 90f;
+            for (int direction : DIRECTIONS) {
+                if (Gdx.input.isKeyPressed(direction)) {
+                    switch (direction) {
+                        case UP:
+                            destinationCoordinates.y++;
+                            rotation = 90f;
+                            break;
+                        case LEFT:
+                            destinationCoordinates.x--;
+                            rotation = -180f;
+                            break;
+                        case DOWN:
+                            destinationCoordinates.y--;
+                            rotation = -90f;
+                            break;
+                        case RIGHT:
+                            destinationCoordinates.x++;
+                            rotation = 0f;
+                            break;
+                    }
+
+                    movementProgress = 0f;
+                }
             }
-            if (Gdx.input.isKeyPressed(LEFT) || Gdx.input.isKeyPressed(A)) {
-                destinationCoordinates.x--;
-                rotation = -180f;
-            }
-            if (Gdx.input.isKeyPressed(DOWN) || Gdx.input.isKeyPressed(S)) {
-                destinationCoordinates.y--;
-                rotation = -90f;
-            }
-            if (Gdx.input.isKeyPressed(RIGHT) || Gdx.input.isKeyPressed(D)) {
-                destinationCoordinates.x++;
-                rotation = 0f;
-            }
-            movementProgress = 0f;
         }
 
         if (!treeCoordinates.equals(destinationCoordinates)) {
-            tileMovement.moveRectangleBetweenTileCenters(rectangle, currentCoordinates, destinationCoordinates, movementProgress);
+            tileMovement.moveRectangleBetweenTileCenters(rectangle, currentCoordinates,
+                    destinationCoordinates, movementProgress);
 
             movementProgress = continueProgress(movementProgress, deltaTime, movementSpeed);
-            if (isEqual(movementProgress, 1f)) {
-                currentCoordinates.set(destinationCoordinates);
-            }
+            if (isEqual(movementProgress, 1f)) currentCoordinates.set(destinationCoordinates);
         }
     }
 
-    public void render(Batch batch) {
-        drawTextureRegionUnscaled(batch, graphics, rectangle, rotation);
-    }
+    public void render(Batch batch) { drawTextureRegionUnscaled(batch, graphics, rectangle, rotation); }
 
-    public void dispose() {
-        texture.dispose();
-    }
+    public void dispose() { texture.dispose(); }
 }

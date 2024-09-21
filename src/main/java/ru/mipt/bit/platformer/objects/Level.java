@@ -18,15 +18,9 @@ public class Level {
         this.levelRenderer = createSingleLayerMapRenderer(level, batch);
     }
 
-    public void render() {
-        levelRenderer.render();
-    }
+    public void render() { levelRenderer.render(); }
 
-    public TiledMapTileLayer getLayer() {
-        return getSingleLayer(level);
-    }
+    public TiledMapTileLayer getLayer() { return getSingleLayer(level); }
 
-    public void dispose() {
-        level.dispose();
-    }
+    public void dispose() { level.dispose(); }
 }
