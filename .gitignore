@@ -1,4 +1,5 @@
 .gradle
+.sberstack
 **/build/
 !src/**/build/
 
