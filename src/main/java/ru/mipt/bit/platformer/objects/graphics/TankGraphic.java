@@ -29,9 +29,7 @@ public class TankGraphic {
 
     public void dispose() { texture.dispose(); }
 
-    public void move(Direction direction) { model.move(direction); }
+    public void move(Direction direction, GridPoint2 obstacleCoordinates) { model.move(direction, obstacleCoordinates); }
 
-    public void update(TileMovement tileMovement,  float deltaTime, GridPoint2 obstacleCoordinates) {
-        model.update(tileMovement, deltaTime, obstacleCoordinates, rectangle);
-    }
+    public void update(TileMovement tileMovement,  float deltaTime) { model.update(tileMovement, deltaTime, rectangle); }
 }
