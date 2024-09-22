@@ -23,18 +23,21 @@ public class TankModel {
 
     public float getRotation() { return rotation; }
 
-    public void move(Direction direction, GridPoint2 obstacleCoordinates) {
+    public void move(Direction direction) {
         if (isEqual(movementProgress, 1f)) {
             destinationCoordinates = currentCoordinates.add(direction.getDirectionVector());
-            if (!obstacleCoordinates.equals(destinationCoordinates)) movementProgress = 0f;
+            movementProgress = 0f;
             rotation = direction.getRotation();
         }
     }
 
-    public void update(TileMovement tileMovement, float deltaTime, Rectangle rectangle) {
-        tileMovement.moveRectangleBetweenTileCenters(rectangle, currentCoordinates, destinationCoordinates, movementProgress);
+    public void update(TileMovement tileMovement, float deltaTime, GridPoint2 obstacleCoordinates, Rectangle rectangle) {
+        if (!obstacleCoordinates.equals(destinationCoordinates)) {
+            tileMovement.moveRectangleBetweenTileCenters(rectangle, currentCoordinates,
+                    destinationCoordinates, movementProgress);
 
-        movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
-        if (isEqual(movementProgress, 1f)) currentCoordinates.set(destinationCoordinates);
+            movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
+            if (isEqual(movementProgress, 1f)) currentCoordinates.set(destinationCoordinates);
+        }
     }
 }

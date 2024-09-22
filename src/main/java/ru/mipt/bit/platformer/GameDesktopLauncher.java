@@ -42,10 +42,10 @@ public class GameDesktopLauncher implements ApplicationListener {
         tank = new TankGraphic("images/tank_blue.png", new GridPoint2(1, 1));
         tree = new TreeGraphic("images/greenTree.png", new GridPoint2(1, 3), level.getLayer());
 
-        handler.add(List.of(UP, W), () -> tank.move(Direction.UP, tree.getCoordinates()));
-        handler.add(List.of(LEFT, A), () -> tank.move(Direction.LEFT, tree.getCoordinates()));
-        handler.add(List.of(DOWN, S), () -> tank.move(Direction.DOWN, tree.getCoordinates()));
-        handler.add(List.of(RIGHT, D), () -> tank.move(Direction.RIGHT, tree.getCoordinates()));
+        handler.add(List.of(UP, W), () -> tank.move(Direction.UP));
+        handler.add(List.of(LEFT, A), () -> tank.move(Direction.LEFT));
+        handler.add(List.of(DOWN, S), () -> tank.move(Direction.DOWN));
+        handler.add(List.of(RIGHT, D), () -> tank.move(Direction.RIGHT));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         handler.check(Gdx.input);
-        tank.update(tileMovement, deltaTime);
+        tank.update(tileMovement, deltaTime, tree.getCoordinates());
 
         level.render();
 
