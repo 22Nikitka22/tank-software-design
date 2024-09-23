@@ -14,7 +14,7 @@ public class TankModel {
     private final GridPoint2 currentCoordinates;
     private GridPoint2 destinationCoordinates;
     private float movementProgress = 1f;
-    private float rotation;
+    private float rotation = 0f;
 
     public TankModel(GridPoint2 initialCoordinates) {
         this.destinationCoordinates = new GridPoint2(initialCoordinates);
