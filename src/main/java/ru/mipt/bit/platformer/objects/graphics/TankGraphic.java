@@ -7,10 +7,10 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.models.TankModel;
-import ru.mipt.bit.platformer.util.TileMovement;
+import ru.mipt.bit.platformer.utils.TileMovement;
 
-import static ru.mipt.bit.platformer.util.GdxGameUtils.createBoundingRectangle;
-import static ru.mipt.bit.platformer.util.GdxGameUtils.drawTextureRegionUnscaled;
+import static ru.mipt.bit.platformer.utils.GdxGameUtils.createBoundingRectangle;
+import static ru.mipt.bit.platformer.utils.GdxGameUtils.drawTextureRegionUnscaled;
 
 public class TankGraphic {
     private final Texture texture;

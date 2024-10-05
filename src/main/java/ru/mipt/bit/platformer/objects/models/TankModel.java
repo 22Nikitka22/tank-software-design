@@ -3,10 +3,10 @@ package ru.mipt.bit.platformer.objects.models;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.util.TileMovement;
+import ru.mipt.bit.platformer.utils.TileMovement;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
-import static ru.mipt.bit.platformer.util.GdxGameUtils.continueProgress;
+import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
 
 public class TankModel {
     private static final float MOVEMENT_SPEED = 0.4f;
@@ -22,6 +22,8 @@ public class TankModel {
     }
 
     public float getRotation() { return rotation; }
+
+    public GridPoint2 getCoordinates() { return currentCoordinates; }
 
     public void move(Direction direction, GridPoint2 obstacleCoordinates) {
         if (isEqual(movementProgress, 1f)) {

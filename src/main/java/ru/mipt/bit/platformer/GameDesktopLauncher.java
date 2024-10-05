@@ -15,8 +15,8 @@ import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.Level;
 import ru.mipt.bit.platformer.objects.graphics.TankGraphic;
 import ru.mipt.bit.platformer.objects.graphics.TreeGraphic;
-import ru.mipt.bit.platformer.util.ButtonHandler;
-import ru.mipt.bit.platformer.util.TileMovement;
+import ru.mipt.bit.platformer.utils.ButtonHandler;
+import ru.mipt.bit.platformer.utils.TileMovement;
 
 import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;

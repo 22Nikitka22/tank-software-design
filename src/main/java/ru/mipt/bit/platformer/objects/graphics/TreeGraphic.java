@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.objects.models.TreeModel;
 
-import static ru.mipt.bit.platformer.util.GdxGameUtils.*;
+import static ru.mipt.bit.platformer.utils.GdxGameUtils.*;
 
 public class TreeGraphic {
     private final Texture texture;

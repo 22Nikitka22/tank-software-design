@@ -6,8 +6,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import static ru.mipt.bit.platformer.util.GdxGameUtils.createSingleLayerMapRenderer;
-import static ru.mipt.bit.platformer.util.GdxGameUtils.getSingleLayer;
+import static ru.mipt.bit.platformer.utils.GdxGameUtils.createSingleLayerMapRenderer;
+import static ru.mipt.bit.platformer.utils.GdxGameUtils.getSingleLayer;
 
 public class Level {
     final private TiledMap level;
