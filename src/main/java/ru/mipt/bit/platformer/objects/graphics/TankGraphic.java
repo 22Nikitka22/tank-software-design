@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.objects.Direction;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Player;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.createBoundingRectangle;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.drawTextureRegionUnscaled;
 
-public class TankGraphic {
+public class TankGraphic implements Player {
     private final Texture texture;
     private final TextureRegion graphics;
     private final Rectangle rectangle;

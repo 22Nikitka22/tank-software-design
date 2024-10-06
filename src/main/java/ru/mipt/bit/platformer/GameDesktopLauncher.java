@@ -15,6 +15,8 @@ import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.Level;
 import ru.mipt.bit.platformer.objects.graphics.TankGraphic;
 import ru.mipt.bit.platformer.objects.graphics.TreeGraphic;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Player;
 import ru.mipt.bit.platformer.utils.ButtonHandler;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
@@ -27,8 +29,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Level level;
     private TileMovement tileMovement;
 
-    private TankGraphic tank;
-    private TreeGraphic tree;
+    private Player tank;
+    private Obstacle tree;
 
     private final ButtonHandler handler = new ButtonHandler();
 
@@ -38,7 +40,6 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         level = new Level("level.tmx", batch);
         tileMovement = new TileMovement(level.getLayer(), Interpolation.smooth);
-
         tank = new TankGraphic("images/tank_blue.png", new GridPoint2(1, 1));
         tree = new TreeGraphic("images/greenTree.png", new GridPoint2(1, 3), level.getLayer());
 
