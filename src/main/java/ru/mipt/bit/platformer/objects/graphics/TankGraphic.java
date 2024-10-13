@@ -10,10 +10,13 @@ import ru.mipt.bit.platformer.objects.graphics.interfaces.Player;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
+import java.util.Collection;
+
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.createBoundingRectangle;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.drawTextureRegionUnscaled;
 
 public class TankGraphic implements Player {
+
     private final Texture texture;
     private final TextureRegion graphics;
     private final Rectangle rectangle;
@@ -30,7 +33,9 @@ public class TankGraphic implements Player {
 
     public void dispose() { texture.dispose(); }
 
-    public void move(Direction direction, GridPoint2 obstacleCoordinates) { model.move(direction, obstacleCoordinates); }
+    public void move(Direction direction, Collection<GridPoint2> obstaclesCoordinates) {
+        model.move(direction, obstaclesCoordinates);
+    }
 
     public void update(TileMovement tileMovement,  float deltaTime) { model.update(tileMovement, deltaTime, rectangle); }
 }
