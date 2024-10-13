@@ -99,16 +99,14 @@ public class GameDesktopLauncher implements ApplicationListener {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setWindowedMode(1280, 1024);
 
-        MapLoader mapLoader = getMapLoader(args);
+        MapLoader mapLoader = getMapLoader("File");
 
         new Lwjgl3Application(new GameDesktopLauncher(mapLoader), config);
     }
 
-    private static MapLoader getMapLoader(String[] args) {
-        String typeMapLoader = args[0];
-
+    private static MapLoader getMapLoader(String typeMapLoader) {
         if (typeMapLoader.equals("File")) {
-            return new MapFileGraphic("/Users/nikitabulanov/tank-software-design/src/main/resources/level_map.txt");
+            return new MapFileGraphic("src/main/resources/level_map.txt");
         } else if (typeMapLoader.equals("Ranndom")) {
             return new MapRandomGraphic(10, 10);
         } else {

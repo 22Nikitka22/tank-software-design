@@ -31,7 +31,7 @@ public class TankModel {
     public void move(Direction direction, Collection<GridPoint2> obstaclesCoordinates) {
         if (isEqual(movementProgress, 1f)) {
             if (obstaclesCoordinates.stream()
-                    .anyMatch(obstacleCoordinates -> obstacleCoordinates
+                    .noneMatch(obstacleCoordinates -> obstacleCoordinates
                             .equals(new GridPoint2(currentCoordinates).add(direction.getDirectionVector()))
                     )) {
                 destinationCoordinates = currentCoordinates.add(direction.getDirectionVector());
