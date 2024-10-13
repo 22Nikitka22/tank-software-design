@@ -5,10 +5,13 @@ import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
+import java.util.Collection;
+
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
 
 public class TankModel {
+
     private static final float MOVEMENT_SPEED = 0.4f;
 
     private final GridPoint2 currentCoordinates;
@@ -25,9 +28,12 @@ public class TankModel {
 
     public GridPoint2 getCoordinates() { return currentCoordinates; }
 
-    public void move(Direction direction, GridPoint2 obstacleCoordinates) {
+    public void move(Direction direction, Collection<GridPoint2> obstaclesCoordinates) {
         if (isEqual(movementProgress, 1f)) {
-            if (!obstacleCoordinates.equals(new GridPoint2(currentCoordinates).add(direction.getDirectionVector()))) {
+            if (obstaclesCoordinates.stream()
+                    .anyMatch(obstacleCoordinates -> obstacleCoordinates
+                            .equals(new GridPoint2(currentCoordinates).add(direction.getDirectionVector()))
+                    )) {
                 destinationCoordinates = currentCoordinates.add(direction.getDirectionVector());
                 movementProgress = 0f;
             }
