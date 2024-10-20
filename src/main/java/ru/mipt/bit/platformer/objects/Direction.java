@@ -14,10 +14,14 @@ public enum Direction {
 
     Direction(float rotation, GridPoint2 directionVector) {
         this.rotation = rotation;
-        this.directionVector = directionVector;
+        this.directionVector = new GridPoint2(directionVector);
     }
 
-    public float getRotation() { return rotation; }
+    public float getRotation() {
+        return rotation;
+    }
 
-    public GridPoint2 getDirectionVector() { return new GridPoint2(directionVector); }
+    public GridPoint2 getDirectionVector() {
+        return new GridPoint2(directionVector);
+    }
 }

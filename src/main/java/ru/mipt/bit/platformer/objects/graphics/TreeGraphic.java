@@ -25,7 +25,11 @@ public class TreeGraphic implements Obstacle {
         moveRectangleAtTileCenter(layer, rectangle, model.getCoordinates());
     }
 
-    public void render(Batch batch) { drawTextureRegionUnscaled(batch, graphics, rectangle, 0f); }
+    public void render(Batch batch) {
+        drawTextureRegionUnscaled(batch, graphics, rectangle, 0f);
+    }
 
-    public void dispose() { texture.dispose(); }
+    public void dispose() {
+        texture.dispose();
+    }
 }

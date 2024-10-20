@@ -29,13 +29,19 @@ public class TankGraphic implements Player {
         this.model = new TankModel(initialPosition);
     }
 
-    public void render(Batch batch) { drawTextureRegionUnscaled(batch, graphics, rectangle, model.getRotation()); }
+    public void render(Batch batch) {
+        drawTextureRegionUnscaled(batch, graphics, rectangle, model.getRotation());
+    }
 
-    public void dispose() { texture.dispose(); }
+    public void dispose() {
+        texture.dispose();
+    }
 
     public void move(Direction direction, Collection<GridPoint2> obstaclesCoordinates) {
         model.move(direction, obstaclesCoordinates);
     }
 
-    public void update(TileMovement tileMovement,  float deltaTime) { model.update(tileMovement, deltaTime, rectangle); }
+    public void update(TileMovement tileMovement,  float deltaTime) {
+        model.update(tileMovement, deltaTime, rectangle);
+    }
 }
