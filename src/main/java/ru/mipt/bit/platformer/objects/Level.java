@@ -10,17 +10,28 @@ import static ru.mipt.bit.platformer.utils.GdxGameUtils.createSingleLayerMapRend
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.getSingleLayer;
 
 public class Level {
+
     final private TiledMap level;
     final private MapRenderer levelRenderer;
 
     public Level(String mapPath, Batch batch) {
-        this.level = new TmxMapLoader().load(mapPath);
+        this.level = loadMap(mapPath);
         this.levelRenderer = createSingleLayerMapRenderer(level, batch);
     }
 
-    public void render() { levelRenderer.render(); }
+    public void render() {
+        levelRenderer.render();
+    }
 
-    public TiledMapTileLayer getLayer() { return getSingleLayer(level); }
+    public void dispose() {
+        level.dispose();
+    }
 
-    public void dispose() { level.dispose(); }
+    public TiledMapTileLayer getLayer() {
+        return getSingleLayer(level);
+    }
+
+    private TiledMap loadMap(String mapPath) {
+        return new TmxMapLoader().load(mapPath);
+    }
 }
