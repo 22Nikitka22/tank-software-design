@@ -7,9 +7,9 @@ import ru.mipt.bit.platformer.utils.TileMovement;
 
 import java.util.Collection;
 
-public interface Player {
+public interface Tank {
     void render(Batch batch);
     void dispose();
-    void move(Direction direction, Collection<GridPoint2> obstaclesCoordinates);
+    void move(Direction direction, Collection<GridPoint2> obstaclesCoordinates, int rowCount, int columnCount);
     void update(TileMovement tileMovement, float deltaTime);
 }

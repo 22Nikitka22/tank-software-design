@@ -5,10 +5,12 @@ import ru.mipt.bit.platformer.objects.graphics.interfaces.MapLoader;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MapFileGraphic implements MapLoader {
+
+    private static final char TREE_CHAR = 'T';
+    private static final char PLAYER_CHAR = 'X';
 
     private final File file;
 
@@ -19,44 +21,51 @@ public class MapFileGraphic implements MapLoader {
     @Override
     public MapModel loadMap() {
         try(BufferedReader br = new BufferedReader (new FileReader(file))) {
-            return readFile(br);
+            return parseMap(br);
         } catch(IOException ex) {
             throw new RuntimeException("Failed to read file", ex);
         }
     }
 
-    private MapModel readFile(BufferedReader br) throws IOException {
-        List<GridPoint2> treesCoordinates = new ArrayList<>();
-        GridPoint2 playerCoordinates = null;
-
+    private MapModel parseMap(BufferedReader br) throws IOException {
+        Set<GridPoint2> treesCoordinates = new HashSet<>();
+        Optional<GridPoint2> playerCoordinates = Optional.empty();
         String line;
         int x = 0;
+        int y = 0;
 
         while ((line = br.readLine()) != null) {
+            if (x == 0) {
+                y = line.length();
+            } else if (line.length() != y) {
+                throw new RuntimeException("Inconsistent line length");
+            }
+
             processLine(line, x, treesCoordinates);
-            if (playerCoordinates == null) {
+            if (playerCoordinates.isEmpty()) {
                 playerCoordinates = findPlayerCoordinates(line, x);
             }
             x++;
         }
 
-        return new MapModel(treesCoordinates, playerCoordinates);
+        return new MapModel(treesCoordinates,null, playerCoordinates.orElse(null), x, y);
     }
 
-    private void processLine(String line, int x, List<GridPoint2> treesCoordinates) {
+    private void processLine(String line, int x, Set<GridPoint2> treesCoordinates) {
         for (int y = 0; y < line.length(); y++) {
-            if (line.charAt(y) == 'T') {
+            char currentChar = line.charAt(y);
+            if (currentChar == TREE_CHAR) {
                 treesCoordinates.add(new GridPoint2(x, y));
             }
         }
     }
 
-    private GridPoint2 findPlayerCoordinates(String line, int x) {
+    private Optional<GridPoint2> findPlayerCoordinates(String line, int x) {
         for (int y = 0; y < line.length(); y++) {
-            if (line.charAt(y) == 'X') {
-                return new GridPoint2(x, y);
+            if (line.charAt(y) == PLAYER_CHAR) {
+                return Optional.of(new GridPoint2(x, y));
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

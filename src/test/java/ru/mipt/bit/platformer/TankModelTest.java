@@ -9,42 +9,51 @@ import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import com.badlogic.gdx.math.GridPoint2;
 
-import java.util.Collections;
+import java.util.Collection;
+import java.util.List;
 
-public class TankModelTest {
+class TankModelTest {
 
     private TankModel tankModel;
-    private static final GridPoint2 INITIAL_COORDINATES = new GridPoint2(0, 0);
-
+    private GridPoint2 initialCoordinates;
 
     @BeforeEach
-    public void setUp() {
-        tankModel = new TankModel(INITIAL_COORDINATES);
+    void setUp() {
+        initialCoordinates = new GridPoint2(1, 1);
+        tankModel = new TankModel(initialCoordinates);
     }
 
     @Test
-    public void testInitialization() {
-        assertEquals(INITIAL_COORDINATES, tankModel.getCoordinates());
-        assertEquals(0f, tankModel.getRotation());
+    void testInitialCoordinates() {
+        assertEquals(initialCoordinates, tankModel.getCoordinates());
+        assertEquals(0.0f, tankModel.getRotation());
     }
 
     @Test
-    public void testMoveToValidCoordinates() {
-        tankModel.move(Direction.UP, Collections.emptyList());
-        assertNotEquals(INITIAL_COORDINATES, tankModel.getCoordinates());
-        assertEquals(new GridPoint2(0, 1), tankModel.getCoordinates());
+    void testMoveWithoutObstacles() {
+        Direction direction = Direction.UP;
+        Collection<GridPoint2> obstacles = List.of();
+
+        tankModel.move(direction, obstacles, 5, 5);
+        assertEquals(new GridPoint2(1, 2), tankModel.getCoordinates());
+        assertEquals(90.0f, tankModel.getRotation());
     }
 
     @Test
-    public void testMoveToObstacle() {
-        GridPoint2 obstacle = new GridPoint2(0, 1);
-        tankModel.move(Direction.UP, Collections.singletonList(obstacle));
-        assertEquals(INITIAL_COORDINATES, tankModel.getCoordinates());
+    void testMoveWithObstacles() {
+        Direction direction = Direction.UP;
+        Collection<GridPoint2> obstacles = List.of(new GridPoint2(1, 2));
+
+        tankModel.move(direction, obstacles, 5, 5);
+        assertEquals(initialCoordinates, tankModel.getCoordinates());
     }
 
     @Test
-    public void testRotationChangeOnMove() {
-        tankModel.move(Direction.UP, Collections.emptyList());
-        assertEquals(Direction.UP.getRotation(), tankModel.getRotation());
+    void testMoveOutOfBounds() {
+        Direction direction = Direction.RIGHT;
+        Collection<GridPoint2> obstacles = List.of();
+
+        tankModel.move(direction, obstacles, 2, 2);
+        assertEquals(initialCoordinates, tankModel.getCoordinates());
     }
 }

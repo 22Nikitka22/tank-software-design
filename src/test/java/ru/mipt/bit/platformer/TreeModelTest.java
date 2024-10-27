@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import ru.mipt.bit.platformer.objects.models.TreeModel;
 import com.badlogic.gdx.math.GridPoint2;
 
-
 public class TreeModelTest {
 
     private TreeModel treeModel;
