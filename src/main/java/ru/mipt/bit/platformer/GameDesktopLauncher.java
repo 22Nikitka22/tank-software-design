@@ -79,7 +79,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration config = createWindowConfig();
-        MapLoader mapLoader = createMapLoader("File");
+        MapLoader mapLoader = createMapLoader("Random");
         new Lwjgl3Application(new GameDesktopLauncher(mapLoader), config);
     }
 

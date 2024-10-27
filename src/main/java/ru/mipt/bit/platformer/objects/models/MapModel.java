@@ -29,10 +29,10 @@ public class MapModel {
     }
 
     public Set<Obstacle> getObstacles() {
-        Set<Obstacle> obstaclesCoordinates = new HashSet<>(trees);
-        obstaclesCoordinates.addAll(tanks);
-        obstaclesCoordinates.add(player);
-        return Collections.unmodifiableSet(obstaclesCoordinates);
+        Set<Obstacle> obstacles = new HashSet<>(trees);
+        obstacles.addAll(tanks);
+        obstacles.add(player);
+        return Collections.unmodifiableSet(obstacles);
     }
 
     public Obstacle getPlayer() {

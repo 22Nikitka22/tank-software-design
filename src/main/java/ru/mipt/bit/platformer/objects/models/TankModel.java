@@ -6,7 +6,7 @@ import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
-import java.util.Collection;
+import java.util.Set;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
@@ -38,7 +38,7 @@ public class TankModel implements Obstacle {
         return currentCoordinates;
     }
 
-    public void move(Direction direction, Collection<Obstacle> obstacles, int rowCount, int columnCount) {
+    public void move(Direction direction, Set<Obstacle> obstacles, int rowCount, int columnCount) {
         if (isEqual(movementProgress, MOVEMENT_COMPLETE)) {
             GridPoint2 nextCoordinates = new GridPoint2(currentCoordinates).add(direction.getDirectionVector());
 
@@ -65,7 +65,7 @@ public class TankModel implements Obstacle {
         }
     }
 
-    private boolean isObstacle(GridPoint2 coordinates, Collection<Obstacle> obstacles) {
+    private boolean isObstacle(GridPoint2 coordinates, Set<Obstacle> obstacles) {
         return obstacles.stream()
                 .anyMatch(obstacle -> obstacle.getCoordinates().equals(coordinates));
     }
