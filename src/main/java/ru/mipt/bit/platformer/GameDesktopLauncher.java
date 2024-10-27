@@ -112,7 +112,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         controls.forEach((direction, keys) ->
                 inputHandler.addButtonAction(keys, () ->
-                        playerTank.move(Direction.DOWN, gameMap.getObstaclesCoordinates(),
+                        playerTank.move(direction, gameMap.getObstaclesCoordinates(),
                                 gameMap.getRowCount(), gameMap.getColumnCount())));
     }
 
@@ -151,7 +151,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private static MapLoader createMapLoader(String typeMapLoader) {
         switch (typeMapLoader) {
             case "File": return new MapFileGraphic("src/main/resources/level_map.txt");
-            case "Random": return new MapRandomGraphic(10, 8, 4);
+            case "Random": return new MapRandomGraphic(10, 8, 1);
             default: throw new IllegalArgumentException("There is no such type of map loader");
         }
     }

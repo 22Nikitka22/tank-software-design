@@ -48,7 +48,7 @@ public class MapFileGraphic implements MapLoader {
             x++;
         }
 
-        return new MapModel(treesCoordinates,null, playerCoordinates.orElse(null), x, y);
+        return new MapModel(treesCoordinates, new HashSet<>(), playerCoordinates.orElse(new GridPoint2()), x, y);
     }
 
     private void processLine(String line, int x, Set<GridPoint2> treesCoordinates) {
