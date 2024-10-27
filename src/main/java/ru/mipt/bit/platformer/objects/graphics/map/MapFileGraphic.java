@@ -2,7 +2,6 @@ package ru.mipt.bit.platformer.objects.graphics.map;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.objects.graphics.interfaces.MapLoader;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.objects.models.TreeModel;
@@ -31,8 +30,8 @@ public class MapFileGraphic implements MapLoader {
     }
 
     private MapModel parseMap(BufferedReader br) throws IOException {
-        Set<Obstacle> trees = new HashSet<>();
-        Obstacle player = null;
+        Set<TreeModel> trees = new HashSet<>();
+        TankModel player = null;
         String line;
         int x = 0;
         int y = 0;
@@ -54,7 +53,7 @@ public class MapFileGraphic implements MapLoader {
         return new MapModel(trees, new HashSet<>(), player, x, y);
     }
 
-    private void processLine(String line, int x, Set<Obstacle> trees) {
+    private void processLine(String line, int x, Set<TreeModel> trees) {
         for (int y = 0; y < line.length(); y++) {
             char currentChar = line.charAt(y);
             if (currentChar == TREE_CHAR) {
@@ -63,7 +62,7 @@ public class MapFileGraphic implements MapLoader {
         }
     }
 
-    private Obstacle findPlayerCoordinates(String line, int x) {
+    private TankModel findPlayerCoordinates(String line, int x) {
         for (int y = 0; y < line.length(); y++) {
             if (line.charAt(y) == PLAYER_CHAR) {
                 return new TankModel(new GridPoint2(x, y));

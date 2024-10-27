@@ -2,7 +2,6 @@ package ru.mipt.bit.platformer.objects.graphics.map;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.objects.graphics.interfaces.MapLoader;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.objects.models.TreeModel;
@@ -27,9 +26,9 @@ public class MapRandomGraphic implements MapLoader {
 
     @Override
     public MapModel loadMap() {
-        Set<Obstacle> trees = new HashSet<>();
-        Set<Obstacle> tanks = new HashSet<>();
-        Obstacle player = new TankModel(generateRandomCoordinates());
+        Set<TreeModel> trees = new HashSet<>();
+        Set<TankModel> tanks = new HashSet<>();
+        TankModel player = new TankModel(generateRandomCoordinates());
 
         generateTrees(trees, player);
         generateTanks(tanks, player, trees);
@@ -37,7 +36,7 @@ public class MapRandomGraphic implements MapLoader {
         return new MapModel(trees, tanks, player, rowCount, columnCount);
     }
 
-    private void generateTrees(Set<Obstacle> trees, Obstacle player) {
+    private void generateTrees(Set<TreeModel> trees, TankModel player) {
         for (int x = 0; x < rowCount; x++) {
             for (int y = 0; y < columnCount; y++) {
                 if (shouldPlaceTree(x, y, player)) {
@@ -47,7 +46,7 @@ public class MapRandomGraphic implements MapLoader {
         }
     }
 
-    private void generateTanks(Set<Obstacle> tanks, Obstacle player, Set<Obstacle> trees) {
+    private void generateTanks(Set<TankModel> tanks, TankModel player, Set<TreeModel> trees) {
         while (tanks.size() < tankCount) {
             GridPoint2 coordinates = generateRandomCoordinates();
             if (shouldPlaceTank(coordinates, player.getCoordinates(), trees, tanks)) {
@@ -61,12 +60,12 @@ public class MapRandomGraphic implements MapLoader {
         return new GridPoint2(random.nextInt(rowCount), random.nextInt(columnCount));
     }
 
-    private boolean shouldPlaceTree(int x, int y, Obstacle player) {
+    private boolean shouldPlaceTree(int x, int y, TankModel player) {
         return random.nextDouble() < TREE_DENSITY && !player.getCoordinates().equals(new GridPoint2(x, y));
     }
 
     private boolean shouldPlaceTank(GridPoint2 coordinates, GridPoint2 playerCoordinates,
-                                    Set<Obstacle> trees, Set<Obstacle> tanks) {
+                                    Set<TreeModel> trees, Set<TankModel> tanks) {
         return coordinates.equals(playerCoordinates)
                 || trees.stream().anyMatch(tree -> tree.getCoordinates().equals(coordinates))
                 || tanks.stream().anyMatch(tank -> tank.getCoordinates().equals(coordinates));

@@ -47,7 +47,6 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Collection<Graphic> enemyTanks;
     private Collection<Graphic> trees;
 
-
     public GameDesktopLauncher(MapLoader mapLoader) {
         this.gameMap = mapLoader.loadMap();
         this.inputHandler = new ButtonHandler();
@@ -90,14 +89,14 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void initializeGameObjects() {
-        playerTank = new TankGraphic(TANK_PLAYER_PATH, gameMap.getPlayer().getCoordinates());
+        playerTank = new TankGraphic(TANK_PLAYER_PATH, gameMap.getPlayer());
 
         enemyTanks = gameMap.getTanks().stream()
-                .map(tank -> new TankGraphic(TANK_PATH, tank.getCoordinates()))
+                .map(tank -> new TankGraphic(TANK_PATH, tank))
                 .collect(Collectors.toList());
 
         trees = gameMap.getTrees().stream()
-                .map(tree -> new TreeGraphic(TREE_PATH, tree.getCoordinates(), gameLevel.getLayer()))
+                .map(tree -> new TreeGraphic(TREE_PATH, tree, gameLevel.getLayer()))
                 .collect(Collectors.toList());
     }
 
@@ -150,7 +149,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private static MapLoader createMapLoader(String typeMapLoader) {
         switch (typeMapLoader) {
             case "File": return new MapFileGraphic("src/main/resources/level_map.txt");
-            case "Random": return new MapRandomGraphic(10, 8, 1);
+            case "Random": return new MapRandomGraphic(10, 8, 2);
             default: throw new IllegalArgumentException("There is no such type of map loader");
         }
     }

@@ -3,7 +3,6 @@ package ru.mipt.bit.platformer.objects.graphics;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.graphics.interfaces.Graphic;
@@ -23,11 +22,11 @@ public class TankGraphic implements Graphic {
     private final Rectangle rectangle;
     private final TankModel model;
 
-    public TankGraphic(String texturePath, GridPoint2 initialPosition) {
+    public TankGraphic(String texturePath, TankModel tankModel) {
         this.texture = new Texture(texturePath);
         this.graphics = new TextureRegion(texture);
         this.rectangle = createBoundingRectangle(graphics);
-        this.model = new TankModel(initialPosition);
+        this.model = tankModel;
     }
 
     @Override

@@ -16,9 +16,9 @@ import java.util.Set;
 class MapModelTest {
 
     private MapModel mapModel;
-    private Set<Obstacle> trees;
-    private Set<Obstacle> tanks;
-    private Obstacle player;
+    private Set<TreeModel> trees;
+    private Set<TankModel> tanks;
+    private TankModel player;
 
     @BeforeEach
     void setUp() {
@@ -29,7 +29,7 @@ class MapModelTest {
         // Add some mock obstacles
         trees.add(new TreeModel(new GridPoint2(0, 0))); // Assuming TreeObstacle implements Obstacle
         trees.add(new TreeModel(new GridPoint2(0, 1)));
-        tanks.add(new TreeModel(new GridPoint2(1, 0))); // Assuming TankObstacle implements Obstacle
+        tanks.add(new TankModel(new GridPoint2(1, 0))); // Assuming TankObstacle implements Obstacle
 
         mapModel = new MapModel(trees, tanks, player, 5, 5);
     }
@@ -54,14 +54,14 @@ class MapModelTest {
 
     @Test
     void testGetTreesReturnsUnmodifiableSet() {
-        Set<Obstacle> treesFromModel = mapModel.getTrees();
+        Set<TreeModel> treesFromModel = mapModel.getTrees();
         assertThrows(UnsupportedOperationException.class, () -> treesFromModel.add(new TreeModel(new GridPoint2(2, 2))));
     }
 
     @Test
     void testGetTanksReturnsUnmodifiableSet() {
-        Set<Obstacle> tanksFromModel = mapModel.getTanks();
-        assertThrows(UnsupportedOperationException.class, () -> tanksFromModel.add(new TreeModel(new GridPoint2(2, 2))));
+        Set<TankModel> tanksFromModel = mapModel.getTanks();
+        assertThrows(UnsupportedOperationException.class, () -> tanksFromModel.add(new TankModel(new GridPoint2(2, 2))));
     }
 
     @Test

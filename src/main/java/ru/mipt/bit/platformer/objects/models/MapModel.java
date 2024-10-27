@@ -5,14 +5,14 @@ import java.util.*;
 
 public class MapModel {
 
-    private final Set<Obstacle> trees;
-    private final Set<Obstacle> tanks;
-    private final Obstacle player;
+    private final Set<TreeModel> trees;
+    private final Set<TankModel> tanks;
+    private final TankModel player;
 
     private final int rowCount;
     private final int columnCount;
 
-    public MapModel(Set<Obstacle> trees, Set<Obstacle> tanks, Obstacle player, int rowCount, int columnCount) {
+    public MapModel(Set<TreeModel> trees, Set<TankModel> tanks, TankModel player, int rowCount, int columnCount) {
         this.trees = Set.copyOf(trees);
         this.tanks = Set.copyOf(tanks);
         this.player = player;
@@ -20,11 +20,11 @@ public class MapModel {
         this.columnCount = columnCount;
     }
 
-    public Set<Obstacle> getTrees() {
+    public Set<TreeModel> getTrees() {
         return trees;
     }
 
-    public Set<Obstacle> getTanks() {
+    public Set<TankModel> getTanks() {
         return tanks;
     }
 
@@ -35,7 +35,7 @@ public class MapModel {
         return Collections.unmodifiableSet(obstacles);
     }
 
-    public Obstacle getPlayer() {
+    public TankModel getPlayer() {
         return player;
     }
 
