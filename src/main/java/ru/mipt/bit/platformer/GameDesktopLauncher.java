@@ -20,8 +20,7 @@ import ru.mipt.bit.platformer.objects.graphics.map.MapRandomGraphic;
 import ru.mipt.bit.platformer.objects.graphics.TankGraphic;
 import ru.mipt.bit.platformer.objects.graphics.TreeGraphic;
 import ru.mipt.bit.platformer.objects.graphics.interfaces.MapLoader;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Tank;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Graphic;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.utils.ButtonHandler;
 import ru.mipt.bit.platformer.utils.TankAIController;
@@ -44,9 +43,9 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch spriteBatch;
     private Level gameLevel;
     private TileMovement tileMovement;
-    private Tank playerTank;
-    private Collection<Tank> enemyTanks;
-    private Collection<Obstacle> trees;
+    private Graphic playerTank;
+    private Collection<Graphic> enemyTanks;
+    private Collection<Graphic> trees;
 
 
     public GameDesktopLauncher(MapLoader mapLoader) {
@@ -71,8 +70,8 @@ public class GameDesktopLauncher implements ApplicationListener {
 
     @Override
     public void dispose() {
-        trees.forEach(Obstacle::dispose);
-        enemyTanks.forEach(Tank::dispose);
+        trees.forEach(Graphic::dispose);
+        enemyTanks.forEach(Graphic::dispose);
         playerTank.dispose();
         gameLevel.dispose();
         spriteBatch.dispose();
@@ -91,14 +90,14 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void initializeGameObjects() {
-        playerTank = new TankGraphic(TANK_PLAYER_PATH, gameMap.getPlayerCoordinates());
+        playerTank = new TankGraphic(TANK_PLAYER_PATH, gameMap.getPlayer().getCoordinates());
 
-        enemyTanks = gameMap.getTanksCoordinates().stream()
-                .map(coordinates -> new TankGraphic(TANK_PATH, coordinates))
+        enemyTanks = gameMap.getTanks().stream()
+                .map(tank -> new TankGraphic(TANK_PATH, tank.getCoordinates()))
                 .collect(Collectors.toList());
 
-        trees = gameMap.getTreesCoordinates().stream()
-                .map(coordinates -> new TreeGraphic(TREE_PATH, coordinates, gameLevel.getLayer()))
+        trees = gameMap.getTrees().stream()
+                .map(tree -> new TreeGraphic(TREE_PATH, tree.getCoordinates(), gameLevel.getLayer()))
                 .collect(Collectors.toList());
     }
 
@@ -112,7 +111,7 @@ public class GameDesktopLauncher implements ApplicationListener {
 
         controls.forEach((direction, keys) ->
                 inputHandler.addButtonAction(keys, () ->
-                        playerTank.move(direction, gameMap.getObstaclesCoordinates(),
+                        playerTank.move(direction, gameMap.getObstacles(),
                                 gameMap.getRowCount(), gameMap.getColumnCount())));
     }
 
@@ -125,7 +124,7 @@ public class GameDesktopLauncher implements ApplicationListener {
         inputHandler.checkInput(Gdx.input);
 
         enemyTanks.forEach(tank -> TankAIController.control(tank,
-                gameMap.getObstaclesCoordinates(),
+                gameMap.getObstacles(),
                 gameMap.getRowCount(),
                 gameMap.getColumnCount()));
 

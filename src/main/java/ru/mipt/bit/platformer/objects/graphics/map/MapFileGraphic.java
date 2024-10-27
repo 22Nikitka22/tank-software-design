@@ -2,7 +2,10 @@ package ru.mipt.bit.platformer.objects.graphics.map;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.objects.graphics.interfaces.MapLoader;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.models.MapModel;
+import ru.mipt.bit.platformer.objects.models.TankModel;
+import ru.mipt.bit.platformer.objects.models.TreeModel;
 
 import java.io.*;
 import java.util.*;
@@ -28,8 +31,8 @@ public class MapFileGraphic implements MapLoader {
     }
 
     private MapModel parseMap(BufferedReader br) throws IOException {
-        Set<GridPoint2> treesCoordinates = new HashSet<>();
-        Optional<GridPoint2> playerCoordinates = Optional.empty();
+        Set<Obstacle> trees = new HashSet<>();
+        Obstacle player = null;
         String line;
         int x = 0;
         int y = 0;
@@ -41,31 +44,31 @@ public class MapFileGraphic implements MapLoader {
                 throw new RuntimeException("Inconsistent line length");
             }
 
-            processLine(line, x, treesCoordinates);
-            if (playerCoordinates.isEmpty()) {
-                playerCoordinates = findPlayerCoordinates(line, x);
+            processLine(line, x, trees);
+            if (player == null) {
+                player = findPlayerCoordinates(line, x);
             }
             x++;
         }
 
-        return new MapModel(treesCoordinates, new HashSet<>(), playerCoordinates.orElse(new GridPoint2()), x, y);
+        return new MapModel(trees, new HashSet<>(), player, x, y);
     }
 
-    private void processLine(String line, int x, Set<GridPoint2> treesCoordinates) {
+    private void processLine(String line, int x, Set<Obstacle> trees) {
         for (int y = 0; y < line.length(); y++) {
             char currentChar = line.charAt(y);
             if (currentChar == TREE_CHAR) {
-                treesCoordinates.add(new GridPoint2(x, y));
+                trees.add(new TreeModel(new GridPoint2(x, y)));
             }
         }
     }
 
-    private Optional<GridPoint2> findPlayerCoordinates(String line, int x) {
+    private Obstacle findPlayerCoordinates(String line, int x) {
         for (int y = 0; y < line.length(); y++) {
             if (line.charAt(y) == PLAYER_CHAR) {
-                return Optional.of(new GridPoint2(x, y));
+                return new TankModel(new GridPoint2(x, y));
             }
         }
-        return Optional.empty();
+        return null;
     }
 }

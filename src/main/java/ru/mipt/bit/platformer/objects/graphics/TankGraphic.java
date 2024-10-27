@@ -6,16 +6,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Tank;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Graphic;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
-import java.util.Collection;
+import java.util.Set;
 
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.createBoundingRectangle;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.drawTextureRegionUnscaled;
 
-public class TankGraphic implements Tank {
+public class TankGraphic implements Graphic {
 
     private final Texture texture;
     private final TextureRegion graphics;
@@ -29,18 +30,22 @@ public class TankGraphic implements Tank {
         this.model = new TankModel(initialPosition);
     }
 
+    @Override
     public void render(Batch batch) {
         drawTextureRegionUnscaled(batch, graphics, rectangle, model.getRotation());
     }
 
+    @Override
     public void dispose() {
         texture.dispose();
     }
 
-    public void move(Direction direction, Collection<GridPoint2> obstaclesCoordinates, int rowCount, int columnCount) {
-        model.move(direction, obstaclesCoordinates, rowCount, columnCount);
+    @Override
+    public void move(Direction direction, Set<Obstacle> obstacles, int rowCount, int columnCount) {
+        model.move(direction, obstacles, rowCount, columnCount);
     }
 
+    @Override
     public void update(TileMovement tileMovement,  float deltaTime) {
         model.update(tileMovement, deltaTime, rectangle);
     }
