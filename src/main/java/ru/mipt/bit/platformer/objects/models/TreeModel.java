@@ -1,7 +1,7 @@
 package ru.mipt.bit.platformer.objects.models;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
+import ru.mipt.bit.platformer.interfaces.Obstacle;
 
 public class TreeModel implements Obstacle {
 

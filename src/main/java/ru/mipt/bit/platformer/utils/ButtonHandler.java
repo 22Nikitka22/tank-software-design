@@ -1,6 +1,7 @@
 package ru.mipt.bit.platformer.utils;
 
 import com.badlogic.gdx.Input;
+import ru.mipt.bit.platformer.interfaces.Command;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,32 +15,32 @@ public class ButtonHandler {
         this.buttonActions = new ArrayList<>();
     }
 
-    public void addButtonAction(Collection<Integer> button, Runnable runnable) {
-        buttonActions.add(new ButtonAction(button, runnable));
+    public void addButtonAction(Collection<Integer> button, Command command) {
+        buttonActions.add(new ButtonAction(button, command));
     }
 
     public void checkInput(Input input) {
         buttonActions.stream()
                 .filter(buttonAction -> buttonAction.getButtons().stream().anyMatch(input::isKeyPressed))
-                .forEach(buttonAction -> buttonAction.getAction().run());
+                .forEach(buttonAction -> buttonAction.getCommand().execute());
     }
 
     private static class ButtonAction {
 
         private final Collection<Integer> buttons;
-        private final Runnable action;
+        private final Command command;
 
-        public ButtonAction(Collection<Integer> buttons, Runnable action) {
+        public ButtonAction(Collection<Integer> buttons, Command command) {
             this.buttons = List.copyOf(buttons);
-            this.action = action;
+            this.command = command;
         }
 
         public Collection<Integer> getButtons() {
             return buttons;
         }
 
-        public Runnable getAction() {
-            return action;
+        public Command getCommand() {
+            return command;
         }
     }
 }

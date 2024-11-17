@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
+import ru.mipt.bit.platformer.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.objects.models.TreeModel;

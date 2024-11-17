@@ -2,8 +2,9 @@ package ru.mipt.bit.platformer.objects.models;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
+import ru.mipt.bit.platformer.interfaces.HealthModel;
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
+import ru.mipt.bit.platformer.interfaces.Obstacle;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
 import java.util.Set;
@@ -11,26 +12,33 @@ import java.util.Set;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
 
-public class TankModel implements Obstacle {
+public class TankModel implements Obstacle, HealthModel {
 
     private static final float MOVEMENT_SPEED = 0.4f;
     private static final float MOVEMENT_COMPLETE = 1.0f;
     private static final float INITIAL_ROTATION = 0.0f;
+    private static final float INITIAL_HEALTH = 100.0f;
 
     private final GridPoint2 currentCoordinates;
     private GridPoint2 destinationCoordinates;
     private float movementProgress;
     private float rotation;
+    private float health;
 
     public TankModel(GridPoint2 initialCoordinates) {
         this.destinationCoordinates = new GridPoint2(initialCoordinates);
         this.currentCoordinates = new GridPoint2(initialCoordinates);
         this.movementProgress = MOVEMENT_COMPLETE;
         this.rotation = INITIAL_ROTATION;
+        this.health = INITIAL_HEALTH;
     }
 
     public float getRotation() {
         return rotation;
+    }
+
+    public float getHealth() {
+        return health;
     }
 
     @Override

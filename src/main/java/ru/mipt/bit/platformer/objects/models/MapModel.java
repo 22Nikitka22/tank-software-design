@@ -1,6 +1,6 @@
 package ru.mipt.bit.platformer.objects.models;
 
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
+import ru.mipt.bit.platformer.interfaces.Obstacle;
 import java.util.*;
 
 public class MapModel {
