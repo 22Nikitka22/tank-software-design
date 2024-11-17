@@ -120,9 +120,9 @@ public class GameDesktopLauncher implements ApplicationListener {
                                 gameMap.getObstacles(),
                                 gameMap.getRowCount(),
                                 gameMap.getColumnCount()
-                        )));
+                        ), true));
 
-        inputHandler.addButtonAction(List.of(L), new HealthBarCommand());
+        inputHandler.addButtonAction(List.of(L), new HealthBarCommand(), false);
     }
 
     private void clearScreen() {
