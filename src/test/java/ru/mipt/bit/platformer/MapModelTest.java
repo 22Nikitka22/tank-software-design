@@ -22,16 +22,19 @@ class MapModelTest {
 
     @BeforeEach
     void setUp() {
+        mapModel = new MapModel();
         trees = new HashSet<>();
         tanks = new HashSet<>();
-        player = new TankModel(new GridPoint2(1, 1)); // Assuming PlayerObstacle implements Obstacle
+        player = new TankModel(new GridPoint2(1, 1), mapModel);
 
-        // Add some mock obstacles
-        trees.add(new TreeModel(new GridPoint2(0, 0))); // Assuming TreeObstacle implements Obstacle
+        trees.add(new TreeModel(new GridPoint2(0, 0)));
         trees.add(new TreeModel(new GridPoint2(0, 1)));
-        tanks.add(new TankModel(new GridPoint2(1, 0))); // Assuming TankObstacle implements Obstacle
+        tanks.add(new TankModel(new GridPoint2(1, 0), mapModel));
 
-        mapModel = new MapModel(trees, tanks, player, 5, 5);
+        mapModel.setMapSize(5,5);
+        mapModel.setTrees(trees);
+        mapModel.setPlayer(player);
+        mapModel.setTanks(tanks);
     }
 
     @Test
@@ -61,7 +64,7 @@ class MapModelTest {
     @Test
     void testGetTanksReturnsUnmodifiableSet() {
         Set<TankModel> tanksFromModel = mapModel.getTanks();
-        assertThrows(UnsupportedOperationException.class, () -> tanksFromModel.add(new TankModel(new GridPoint2(2, 2))));
+        assertThrows(UnsupportedOperationException.class, () -> tanksFromModel.add(new TankModel(new GridPoint2(2, 2), mapModel)));
     }
 
     @Test

@@ -6,15 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import ru.mipt.bit.platformer.interfaces.HealthModel;
 import ru.mipt.bit.platformer.interfaces.MovingGraphic;
-import ru.mipt.bit.platformer.interfaces.Obstacle;
+import ru.mipt.bit.platformer.interfaces.PlayingModel;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.models.HealthBarModel;
 import ru.mipt.bit.platformer.utils.GdxGameUtils;
 import ru.mipt.bit.platformer.utils.TileMovement;
-
-import java.util.Set;
 
 public class HealthBarDecorator implements MovingGraphic {
 
@@ -40,8 +37,8 @@ public class HealthBarDecorator implements MovingGraphic {
     }
 
     @Override
-    public void move(Direction direction, Set<Obstacle> obstacles, int rowCount, int columnCount) {
-        wrapped.move(direction, obstacles, rowCount, columnCount);
+    public void move(Direction direction) {
+        wrapped.move(direction);
     }
 
     @Override
@@ -50,7 +47,7 @@ public class HealthBarDecorator implements MovingGraphic {
     }
 
     @Override
-    public HealthModel getModel() {
+    public PlayingModel getModel() {
         return wrapped.getModel();
     }
 
@@ -82,7 +79,7 @@ public class HealthBarDecorator implements MovingGraphic {
     }
 
     private Rectangle createHealthBarRectangle() {
-        Rectangle rectangle = new Rectangle(wrapped.getRectangle());
+        Rectangle rectangle = new Rectangle(getRectangle());
         rectangle.y += HEALTH_BAR_Y_OFFSET;
         return rectangle;
     }

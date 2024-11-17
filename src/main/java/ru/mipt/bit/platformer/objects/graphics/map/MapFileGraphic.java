@@ -22,52 +22,46 @@ public class MapFileGraphic implements MapLoader {
 
     @Override
     public MapModel loadMap() {
-        try(BufferedReader br = new BufferedReader (new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             return parseMap(br);
-        } catch(IOException ex) {
-            throw new RuntimeException("Failed to read file", ex);
+        } catch (IOException ex) {
+            throw new RuntimeException("Failed to read file: " + file.getName(), ex);
         }
     }
 
     private MapModel parseMap(BufferedReader br) throws IOException {
+        MapModel map = new MapModel();
         Set<TreeModel> trees = new HashSet<>();
-        TankModel player = null;
+        Optional<TankModel> player = Optional.empty();
         String line;
-        int x = 0;
-        int y = 0;
+        int rowCount = 0;
+        int columnCount = 0;
 
         while ((line = br.readLine()) != null) {
-            if (x == 0) {
-                y = line.length();
-            } else if (line.length() != y) {
-                throw new RuntimeException("Inconsistent line length");
+            if (rowCount == 0) {
+                columnCount = line.length();
+            } else if (line.length() != columnCount) {
+                throw new RuntimeException("Inconsistent line length at line " + (rowCount + 1));
             }
 
-            processLine(line, x, trees);
-            if (player == null) {
-                player = findPlayerCoordinates(line, x);
-            }
-            x++;
+            processLine(line, rowCount, trees, player, map);
+            rowCount++;
         }
 
-        return new MapModel(trees, new HashSet<>(), player, x, y);
+        map.setTrees(trees);
+        player.ifPresent(map::setPlayer);
+        map.setMapSize(rowCount, columnCount);
+        return map;
     }
 
-    private void processLine(String line, int x, Set<TreeModel> trees) {
-        for (int y = 0; y < line.length(); y++) {
-            char currentChar = line.charAt(y);
+    private void processLine(String line, int row, Set<TreeModel> trees, Optional<TankModel> player, MapModel map) {
+        for (int col = 0; col < line.length(); col++) {
+            char currentChar = line.charAt(col);
             if (currentChar == TREE_CHAR) {
-                trees.add(new TreeModel(new GridPoint2(x, y)));
+                trees.add(new TreeModel(new GridPoint2(row, col)));
+            } else if (currentChar == PLAYER_CHAR && player.isEmpty()) {
+                player = Optional.of(new TankModel(new GridPoint2(row, col), map));
             }
         }
-    }
-
-    private TankModel findPlayerCoordinates(String line, int x) {
-        for (int y = 0; y < line.length(); y++) {
-            if (line.charAt(y) == PLAYER_CHAR) {
-                return new TankModel(new GridPoint2(x, y));
-            }
-        }
-        return null;
     }
 }

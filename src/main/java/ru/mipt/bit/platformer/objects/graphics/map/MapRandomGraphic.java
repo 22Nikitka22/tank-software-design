@@ -10,7 +10,7 @@ import java.util.*;
 
 public class MapRandomGraphic implements MapLoader {
 
-    private final static double TREE_DENSITY = 0.2;
+    private static final double TREE_DENSITY = 0.2;
 
     private final int rowCount;
     private final int columnCount;
@@ -26,33 +26,39 @@ public class MapRandomGraphic implements MapLoader {
 
     @Override
     public MapModel loadMap() {
+        MapModel map = new MapModel();
         Set<TreeModel> trees = new HashSet<>();
         Set<TankModel> tanks = new HashSet<>();
-        TankModel player = new TankModel(generateRandomCoordinates());
+        TankModel player = new TankModel(generateRandomCoordinates(), map);
 
         generateTrees(trees, player);
-        generateTanks(tanks, player, trees);
+        generateTanks(tanks, player, trees, map);
 
-        return new MapModel(trees, tanks, player, rowCount, columnCount);
+        map.setTrees(trees);
+        map.setTanks(tanks);
+        map.setPlayer(player);
+        map.setMapSize(rowCount, columnCount);
+        return map;
     }
 
     private void generateTrees(Set<TreeModel> trees, TankModel player) {
         for (int x = 0; x < rowCount; x++) {
             for (int y = 0; y < columnCount; y++) {
-                if (shouldPlaceTree(x, y, player)) {
-                    trees.add(new TreeModel(new GridPoint2(x, y)));
+                GridPoint2 currentCoordinates = new GridPoint2(x, y);
+                if (shouldPlaceTree(currentCoordinates, player)) {
+                    trees.add(new TreeModel(currentCoordinates));
                 }
             }
         }
     }
 
-    private void generateTanks(Set<TankModel> tanks, TankModel player, Set<TreeModel> trees) {
+    private void generateTanks(Set<TankModel> tanks, TankModel player, Set<TreeModel> trees, MapModel map) {
         while (tanks.size() < tankCount) {
             GridPoint2 coordinates = generateRandomCoordinates();
             if (shouldPlaceTank(coordinates, player.getCoordinates(), trees, tanks)) {
                 continue;
             }
-            tanks.add(new TankModel(coordinates));
+            tanks.add(new TankModel(coordinates, map));
         }
     }
 
@@ -60,14 +66,14 @@ public class MapRandomGraphic implements MapLoader {
         return new GridPoint2(random.nextInt(rowCount), random.nextInt(columnCount));
     }
 
-    private boolean shouldPlaceTree(int x, int y, TankModel player) {
-        return random.nextDouble() < TREE_DENSITY && !player.getCoordinates().equals(new GridPoint2(x, y));
+    private boolean shouldPlaceTree(GridPoint2 coordinates, TankModel player) {
+        return random.nextDouble() < TREE_DENSITY && !coordinates.equals(player.getCoordinates());
     }
 
     private boolean shouldPlaceTank(GridPoint2 coordinates, GridPoint2 playerCoordinates,
                                     Set<TreeModel> trees, Set<TankModel> tanks) {
-        return coordinates.equals(playerCoordinates)
-                || trees.stream().anyMatch(tree -> tree.getCoordinates().equals(coordinates))
-                || tanks.stream().anyMatch(tank -> tank.getCoordinates().equals(coordinates));
+        return coordinates.equals(playerCoordinates) ||
+                trees.stream().anyMatch(tree -> tree.getCoordinates().equals(coordinates)) ||
+                tanks.stream().anyMatch(tank -> tank.getCoordinates().equals(coordinates));
     }
 }
