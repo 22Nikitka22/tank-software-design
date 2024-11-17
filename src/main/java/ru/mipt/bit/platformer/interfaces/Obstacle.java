@@ -2,6 +2,8 @@ package ru.mipt.bit.platformer.interfaces;
 
 import com.badlogic.gdx.math.GridPoint2;
 
+import java.util.Collection;
+
 public interface Obstacle {
-    GridPoint2 getCoordinates();
+    Collection<GridPoint2> getCoordinates();
 }

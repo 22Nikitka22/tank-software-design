@@ -7,6 +7,8 @@ import ru.mipt.bit.platformer.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
@@ -72,7 +74,7 @@ public class BulletModel implements Obstacle {
 
     private Obstacle findObstacleAt(GridPoint2 coordinates) {
         return map.getObstacles().stream()
-                .filter(obstacle -> obstacle.getCoordinates().equals(coordinates))
+                .filter(obstacle -> obstacle.getCoordinates().stream().anyMatch(coordinates::equals))
                 .findFirst()
                 .orElse(null);
     }
@@ -85,8 +87,8 @@ public class BulletModel implements Obstacle {
     }
 
     private boolean isObstacle(GridPoint2 coordinates, Set<Obstacle> obstacles) {
-        return obstacles.stream()
-                .anyMatch(obstacle -> obstacle.getCoordinates().equals(coordinates));
+        return obstacles.stream().anyMatch(obstacle ->
+                obstacle.getCoordinates().stream().anyMatch(coordinates::equals));
     }
 
     public void update(TileMovement tileMovement, float deltaTime, Rectangle rectangle) {
@@ -99,8 +101,8 @@ public class BulletModel implements Obstacle {
     }
 
     @Override
-    public GridPoint2 getCoordinates() {
-        return currentCoordinates;
+    public Collection<GridPoint2> getCoordinates() {
+        return List.of(currentCoordinates, destinationCoordinates);
     }
 
     public void setBulletObserver(BulletObserver bulletObserver) {

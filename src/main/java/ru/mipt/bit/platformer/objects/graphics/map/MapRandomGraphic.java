@@ -55,7 +55,7 @@ public class MapRandomGraphic implements MapLoader {
     private void generateTanks(Set<TankModel> tanks, TankModel player, Set<TreeModel> trees, MapModel map) {
         while (tanks.size() < tankCount) {
             GridPoint2 coordinates = generateRandomCoordinates();
-            if (shouldPlaceTank(coordinates, player.getCoordinates(), trees, tanks)) {
+            if (shouldPlaceTank(coordinates, player.getCoordinate(), trees, tanks)) {
                 continue;
             }
             tanks.add(new TankModel(coordinates, map));
@@ -67,13 +67,13 @@ public class MapRandomGraphic implements MapLoader {
     }
 
     private boolean shouldPlaceTree(GridPoint2 coordinates, TankModel player) {
-        return random.nextDouble() < TREE_DENSITY && !coordinates.equals(player.getCoordinates());
+        return random.nextDouble() < TREE_DENSITY && !coordinates.equals(player.getCoordinate());
     }
 
     private boolean shouldPlaceTank(GridPoint2 coordinates, GridPoint2 playerCoordinates,
                                     Set<TreeModel> trees, Set<TankModel> tanks) {
         return coordinates.equals(playerCoordinates) ||
-                trees.stream().anyMatch(tree -> tree.getCoordinates().equals(coordinates)) ||
-                tanks.stream().anyMatch(tank -> tank.getCoordinates().equals(coordinates));
+                trees.stream().anyMatch(tree -> tree.getCoordinate().equals(coordinates)) ||
+                tanks.stream().anyMatch(tank -> tank.getCoordinate().equals(coordinates));
     }
 }

@@ -22,6 +22,7 @@ public class MapGraphic implements BulletObserver, TankObserver {
     private static final String TANK_PLAYER_PATH = "images/tank_blue.png";
     private static final String TANK_PATH = "images/tank_green.png";
     private static final String TREE_PATH = "images/greenTree.png";
+    private static final String BULLET_PATH = "images/bullet.png";
     private static final String LEVEL_FILE = "level.tmx";
 
     private Level gameLevel;
@@ -67,7 +68,7 @@ public class MapGraphic implements BulletObserver, TankObserver {
 
     @Override
     public void bulletAppeared(BulletModel bullet) {
-        BulletGraphic bulletGraphic = new BulletGraphic("images/bullet.png", bullet);
+        BulletGraphic bulletGraphic = new BulletGraphic(BULLET_PATH, bullet);
         bullets.add(bulletGraphic);
         bullet.setBulletObserver(this);
     }

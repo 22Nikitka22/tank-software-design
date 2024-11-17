@@ -9,6 +9,8 @@ import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.interfaces.Obstacle;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import static com.badlogic.gdx.math.MathUtils.isEqual;
@@ -54,7 +56,11 @@ public class TankModel implements Obstacle, PlayingModel {
     }
 
     @Override
-    public GridPoint2 getCoordinates() {
+    public Collection<GridPoint2> getCoordinates() {
+        return List.of(currentCoordinates, destinationCoordinates);
+    }
+
+    public GridPoint2 getCoordinate() {
         return currentCoordinates;
     }
 
@@ -122,6 +128,7 @@ public class TankModel implements Obstacle, PlayingModel {
     }
 
     private boolean isObstacle(GridPoint2 coordinates, Set<Obstacle> obstacles) {
-        return obstacles.stream().anyMatch(obstacle -> obstacle.getCoordinates().equals(coordinates));
+        return obstacles.stream().anyMatch(obstacle ->
+                obstacle.getCoordinates().stream().anyMatch(coordinates::equals));
     }
 }
