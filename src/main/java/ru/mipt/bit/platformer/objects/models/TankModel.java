@@ -98,6 +98,7 @@ public class TankModel implements Obstacle, PlayingModel {
 
     public void update(TileMovement tileMovement, float deltaTime, Rectangle rectangle) {
         tileMovement.moveRectangleBetweenTileCenters(rectangle, currentCoordinates, destinationCoordinates, movementProgress);
+        cooldown -= deltaTime;
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
 
         if (isMovementComplete()) {

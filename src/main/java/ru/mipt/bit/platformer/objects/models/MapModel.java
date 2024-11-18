@@ -17,7 +17,7 @@ public class MapModel {
     public MapModel() { }
 
     public Set<TreeModel> getTrees() {
-        return Collections.unmodifiableSet(trees);
+        return trees;
     }
 
     public void setTrees(Set<TreeModel> trees) {
@@ -26,7 +26,7 @@ public class MapModel {
     }
 
     public Set<TankModel> getTanks() {
-        return Collections.unmodifiableSet(tanks);
+        return tanks;
     }
 
     public void setTanks(Set<TankModel> tanks) {
@@ -39,7 +39,7 @@ public class MapModel {
         obstacles.addAll(tanks);
         obstacles.addAll(bullets);
         obstacles.add(player);
-        return Collections.unmodifiableSet(obstacles);
+        return obstacles;
     }
 
     public void addBullet(BulletModel bulletModel) {

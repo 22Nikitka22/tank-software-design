@@ -22,7 +22,7 @@ public class BulletModel implements Obstacle {
     private final GridPoint2 currentCoordinates;
     private GridPoint2 destinationCoordinates;
     private float movementProgress;
-    private final float rotation;
+    private final Direction direction;
 
     private final MapModel map;
     private BulletObserver bulletObserver;
@@ -31,15 +31,15 @@ public class BulletModel implements Obstacle {
         this.currentCoordinates = new GridPoint2(initialCoordinates);
         this.destinationCoordinates = new GridPoint2(initialCoordinates);
         this.movementProgress = MOVEMENT_COMPLETE;
-        this.rotation = direction.getRotation();
+        this.direction = direction;
         this.map = map;
     }
 
     public float getRotation() {
-        return rotation;
+        return direction.getRotation();
     }
 
-    public void move(Direction direction) {
+    public void move() {
         if (isMovementComplete()) {
             GridPoint2 nextCoordinates = currentCoordinates.cpy().add(direction.getDirectionVector());
 
@@ -95,8 +95,9 @@ public class BulletModel implements Obstacle {
         tileMovement.moveRectangleBetweenTileCenters(rectangle, currentCoordinates, destinationCoordinates, movementProgress);
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
 
-        if (isEqual(movementProgress, MOVEMENT_COMPLETE)) {
+        if (isMovementComplete()) {
             currentCoordinates.set(destinationCoordinates);
+            move();
         }
     }
 

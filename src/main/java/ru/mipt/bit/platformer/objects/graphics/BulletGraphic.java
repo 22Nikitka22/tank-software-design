@@ -39,7 +39,7 @@ public class BulletGraphic implements MovingGraphic {
 
     @Override
     public void move(Direction direction) {
-        bulletModel.move(direction);
+        bulletModel.move();
     }
 
     @Override
