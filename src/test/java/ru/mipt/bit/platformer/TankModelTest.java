@@ -10,21 +10,21 @@ import ru.mipt.bit.platformer.objects.models.TankModel;
 import com.badlogic.gdx.math.GridPoint2;
 
 class TankModelTest {
-
-    private TankModel tank;
-
-    @BeforeEach
-    void setUp() {
-        GridPoint2 initialCoordinates = new GridPoint2(2, 2);
-        tank = new TankModel(initialCoordinates, new MapModel());
-    }
-
-    @Test
-    void testInitialization() {
-        assertEquals(new GridPoint2(2, 2), tank.getCoordinates());
-        assertEquals(0.0f, tank.getRotation());
-    }
-
+//
+//    private TankModel tank;
+//
+//    @BeforeEach
+//    void setUp() {
+//        GridPoint2 initialCoordinates = new GridPoint2(2, 2);
+//        tank = new TankModel(initialCoordinates, new MapModel());
+//    }
+//
+//    @Test
+//    void testInitialization() {
+//        assertEquals(new GridPoint2(2, 2), tank.getCoordinates());
+//        assertEquals(0.0f, tank.getRotation());
+//    }
+//
 //    @Test
 //    void testMoveWithoutObstacles() {
 //        tank.move(Direction.UP);

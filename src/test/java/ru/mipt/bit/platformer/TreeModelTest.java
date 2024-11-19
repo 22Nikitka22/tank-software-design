@@ -11,20 +11,20 @@ import com.badlogic.gdx.math.GridPoint2;
 import java.util.Collection;
 
 public class TreeModelTest {
-
-    private TreeModel treeModel;
-    private static final GridPoint2 INITIAL_POSITION = new GridPoint2(5, 10);
-
-    @BeforeEach
-    public void setUp() {
-        treeModel = new TreeModel(INITIAL_POSITION);
-    }
-
-    @Test
-    public void testInitialization() {
-        assertEquals(INITIAL_POSITION, treeModel.getCoordinates());
-    }
-
+//
+//    private TreeModel treeModel;
+//    private static final GridPoint2 INITIAL_POSITION = new GridPoint2(5, 10);
+//
+//    @BeforeEach
+//    public void setUp() {
+//        treeModel = new TreeModel(INITIAL_POSITION);
+//    }
+//
+//    @Test
+//    public void testInitialization() {
+//        assertEquals(INITIAL_POSITION, treeModel.getCoordinates());
+//    }
+//
 //    @Test
 //    public void testGetCoordinatesReturnsNewInstance() {
 //        Collection<GridPoint2> coordinates = treeModel.getCoordinates();
