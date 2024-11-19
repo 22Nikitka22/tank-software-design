@@ -32,7 +32,7 @@ public class MapFileGraphic implements MapLoader {
     private MapModel parseMap(BufferedReader br) throws IOException {
         MapModel map = new MapModel();
         Set<TreeModel> trees = new HashSet<>();
-        Optional<TankModel> player = Optional.empty();
+        TankModel player = null;
         String line;
         int rowCount = 0;
         int columnCount = 0;
@@ -41,27 +41,37 @@ public class MapFileGraphic implements MapLoader {
             if (rowCount == 0) {
                 columnCount = line.length();
             } else if (line.length() != columnCount) {
-                throw new RuntimeException("Inconsistent line length at line " + (rowCount + 1));
+                throw new RuntimeException("Inconsistent line length");
             }
 
-            processLine(line, rowCount, trees, player, map);
+            processLine(line, rowCount, trees);
+            if (player == null) {
+                player = findPlayerCoordinates(line, rowCount, map);
+            }
             rowCount++;
         }
 
         map.setTrees(trees);
-        player.ifPresent(map::setPlayer);
+        map.setPlayer(player);
         map.setMapSize(rowCount, columnCount);
         return map;
     }
 
-    private void processLine(String line, int row, Set<TreeModel> trees, Optional<TankModel> player, MapModel map) {
-        for (int col = 0; col < line.length(); col++) {
-            char currentChar = line.charAt(col);
+    private void processLine(String line, int rowCount, Set<TreeModel> trees) {
+        for (int columnCount = 0; columnCount < line.length(); columnCount++) {
+            char currentChar = line.charAt(columnCount);
             if (currentChar == TREE_CHAR) {
-                trees.add(new TreeModel(new GridPoint2(row, col)));
-            } else if (currentChar == PLAYER_CHAR && player.isEmpty()) {
-                player = Optional.of(new TankModel(new GridPoint2(row, col), map));
+                trees.add(new TreeModel(new GridPoint2(rowCount, columnCount)));
             }
         }
+    }
+
+    private TankModel findPlayerCoordinates(String line, int rowCount, MapModel map) {
+        for (int columnCount = 0; columnCount < line.length(); columnCount++) {
+            if (line.charAt(columnCount) == PLAYER_CHAR) {
+                return new TankModel(new GridPoint2(rowCount, columnCount), map);
+            }
+        }
+        return null;
     }
 }

@@ -1,13 +1,11 @@
 package ru.mipt.bit.platformer.objects.models;
 
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.interfaces.BulletObserver;
 import ru.mipt.bit.platformer.interfaces.PlayingModel;
 import ru.mipt.bit.platformer.interfaces.TankObserver;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.interfaces.Obstacle;
-import ru.mipt.bit.platformer.utils.TileMovement;
 
 import java.util.Collection;
 import java.util.List;
@@ -64,6 +62,14 @@ public class TankModel implements Obstacle, PlayingModel {
         return currentCoordinates;
     }
 
+    public GridPoint2 getDestinationCoordinates() {
+        return destinationCoordinates;
+    }
+
+    public float getMovementProgress() {
+        return movementProgress;
+    }
+
     @Override
     public void shoot() {
         if (cooldown > 0) return;
@@ -96,8 +102,7 @@ public class TankModel implements Obstacle, PlayingModel {
         }
     }
 
-    public void update(TileMovement tileMovement, float deltaTime, Rectangle rectangle) {
-        tileMovement.moveRectangleBetweenTileCenters(rectangle, currentCoordinates, destinationCoordinates, movementProgress);
+    public void update(float deltaTime) {
         cooldown -= deltaTime;
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
 

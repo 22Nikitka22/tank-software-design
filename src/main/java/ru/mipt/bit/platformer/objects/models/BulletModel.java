@@ -1,11 +1,9 @@
 package ru.mipt.bit.platformer.objects.models;
 
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.interfaces.BulletObserver;
 import ru.mipt.bit.platformer.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.utils.TileMovement;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +31,14 @@ public class BulletModel implements Obstacle {
         this.movementProgress = MOVEMENT_COMPLETE;
         this.direction = direction;
         this.map = map;
+    }
+
+    public GridPoint2 getDestinationCoordinates() {
+        return destinationCoordinates;
+    }
+
+    public float getMovementProgress() {
+        return movementProgress;
     }
 
     public float getRotation() {
@@ -91,8 +97,7 @@ public class BulletModel implements Obstacle {
                 obstacle.getCoordinates().stream().anyMatch(coordinates::equals));
     }
 
-    public void update(TileMovement tileMovement, float deltaTime, Rectangle rectangle) {
-        tileMovement.moveRectangleBetweenTileCenters(rectangle, currentCoordinates, destinationCoordinates, movementProgress);
+    public void update(float deltaTime) {
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
 
         if (isMovementComplete()) {
@@ -104,6 +109,10 @@ public class BulletModel implements Obstacle {
     @Override
     public Collection<GridPoint2> getCoordinates() {
         return List.of(currentCoordinates, destinationCoordinates);
+    }
+
+    public GridPoint2 getCoordinate() {
+        return currentCoordinates;
     }
 
     public void setBulletObserver(BulletObserver bulletObserver) {

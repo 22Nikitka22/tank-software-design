@@ -44,7 +44,11 @@ public class BulletGraphic implements MovingGraphic {
 
     @Override
     public void update(TileMovement tileMovement, float deltaTime) {
-        bulletModel.update(tileMovement, deltaTime, boundingRectangle);
+        tileMovement.moveRectangleBetweenTileCenters(
+                boundingRectangle, bulletModel.getCoordinate(),
+                bulletModel.getDestinationCoordinates(), bulletModel.getMovementProgress()
+        );
+        bulletModel.update(deltaTime);
     }
 
     @Override

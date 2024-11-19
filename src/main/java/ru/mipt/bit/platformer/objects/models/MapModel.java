@@ -42,6 +42,10 @@ public class MapModel {
         return obstacles;
     }
 
+    public Set<BulletModel> getBullets() {
+        return bullets;
+    }
+
     public void addBullet(BulletModel bulletModel) {
         bullets.add(bulletModel);
     }

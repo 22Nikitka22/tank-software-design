@@ -43,7 +43,11 @@ public class TankGraphic implements MovingGraphic {
 
     @Override
     public void update(TileMovement tileMovement,  float deltaTime) {
-        model.update(tileMovement, deltaTime, rectangle);
+        tileMovement.moveRectangleBetweenTileCenters(
+                rectangle, model.getCoordinate(),
+                model.getDestinationCoordinates(), model.getMovementProgress()
+        );
+        model.update(deltaTime);
     }
 
     @Override
