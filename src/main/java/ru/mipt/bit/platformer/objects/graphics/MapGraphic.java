@@ -14,6 +14,7 @@ import ru.mipt.bit.platformer.utils.TileMovement;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,7 @@ public class MapGraphic implements BulletObserver, TankObserver {
     public void render(float deltaTime) {
         playerTank.update(tileMovement, deltaTime);
         enemyTanks.forEach(tank -> tank.update(tileMovement, deltaTime));
+        List.copyOf(bullets).forEach(bullet -> bullet.update(tileMovement, deltaTime));
     }
 
     public void render(Batch batch) {

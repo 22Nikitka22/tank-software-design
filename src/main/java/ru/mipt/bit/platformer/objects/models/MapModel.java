@@ -50,20 +50,16 @@ public class MapModel {
         bullets.remove(bulletModel);
     }
 
+    public void removeTank(TankModel tankModel) {
+        tanks.remove(tankModel);
+    }
+
     public TankModel getPlayer() {
         return player;
     }
 
     public void setPlayer(TankModel player) {
         this.player = player;
-    }
-
-    public int getRowCount() {
-        return rowCount;
-    }
-
-    public int getColumnCount() {
-        return columnCount;
     }
 
     public void setMapSize(int rowCount, int columnCount) {

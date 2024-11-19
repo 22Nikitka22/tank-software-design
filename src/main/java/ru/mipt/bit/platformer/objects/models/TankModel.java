@@ -118,6 +118,7 @@ public class TankModel implements Obstacle, PlayingModel {
         if (tankObserver != null) {
             tankObserver.tankDestroyed(this);
         }
+        map.removeTank(this);
     }
 
     private boolean isMovementComplete() {

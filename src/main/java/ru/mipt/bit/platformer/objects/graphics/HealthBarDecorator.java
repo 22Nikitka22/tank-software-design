@@ -61,7 +61,7 @@ public class HealthBarDecorator implements MovingGraphic {
             return;
         }
 
-        float relativeHealth = getModel().getHealth();
+        float relativeHealth = getModel().getHealth() / 100;
         TextureRegion healthBarTexture = createHealthBarTexture(relativeHealth);
         Rectangle healthBarRectangle = createHealthBarRectangle();
         GdxGameUtils.drawTextureRegionUnscaled(batch, healthBarTexture, healthBarRectangle, 0f);

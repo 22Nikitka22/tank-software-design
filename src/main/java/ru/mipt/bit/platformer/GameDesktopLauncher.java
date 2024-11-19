@@ -110,7 +110,7 @@ public class GameDesktopLauncher implements ApplicationListener {
     private static MapLoader createMapLoader(String typeMapLoader) {
         switch (typeMapLoader) {
             case "File": return new MapFileGraphic("src/main/resources/level_map.txt");
-            case "Random": return new MapRandomGraphic(10, 8, 2);
+            case "Random": return new MapRandomGraphic(10, 6, 2);
             default: throw new IllegalArgumentException("There is no such type of map loader");
         }
     }
