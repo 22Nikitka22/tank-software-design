@@ -1,4 +1,4 @@
-package ru.mipt.bit.platformer.objects.graphics.map;
+package ru.mipt.bit.platformer.loader;
 
 import com.badlogic.gdx.math.GridPoint2;
 import ru.mipt.bit.platformer.interfaces.MapLoader;
@@ -31,8 +31,8 @@ public class MapFileGraphic implements MapLoader {
 
     private MapModel parseMap(BufferedReader br) throws IOException {
         MapModel map = new MapModel();
-        Set<TreeModel> trees = new HashSet<>();
-        TankModel player = null;
+        Set<GridPoint2> trees = new HashSet<>();
+        GridPoint2 player = null;
         String line;
         int rowCount = 0;
         int columnCount = 0;
@@ -46,32 +46,40 @@ public class MapFileGraphic implements MapLoader {
 
             processLine(line, rowCount, trees);
             if (player == null) {
-                player = findPlayerCoordinates(line, rowCount, map);
+                player = findPlayerCoordinates(line, rowCount);
             }
             rowCount++;
         }
 
-        map.setTrees(trees);
-        map.setPlayer(player);
-        map.setMapSize(rowCount, columnCount);
+        map.setTrees(convertToTreeModels(trees, rowCount));
+        map.setPlayer(new TankModel(new GridPoint2(player.y, rowCount - player.x - 1), map));
+        map.setMapSize(columnCount, rowCount);
         return map;
     }
 
-    private void processLine(String line, int rowCount, Set<TreeModel> trees) {
+    private void processLine(String line, int rowCount, Set<GridPoint2> trees) {
         for (int columnCount = 0; columnCount < line.length(); columnCount++) {
             char currentChar = line.charAt(columnCount);
             if (currentChar == TREE_CHAR) {
-                trees.add(new TreeModel(new GridPoint2(rowCount, columnCount)));
+                trees.add(new GridPoint2(rowCount, columnCount));
             }
         }
     }
 
-    private TankModel findPlayerCoordinates(String line, int rowCount, MapModel map) {
+    private GridPoint2 findPlayerCoordinates(String line, int rowCount) {
         for (int columnCount = 0; columnCount < line.length(); columnCount++) {
             if (line.charAt(columnCount) == PLAYER_CHAR) {
-                return new TankModel(new GridPoint2(rowCount, columnCount), map);
+                return new GridPoint2(rowCount, columnCount);
             }
         }
         return null;
+    }
+
+    private Set<TreeModel> convertToTreeModels(Set<GridPoint2> trees, int rowCount) {
+        Set<TreeModel> treeModels = new HashSet<>();
+        for (GridPoint2 el : trees) {
+            treeModels.add(new TreeModel(new GridPoint2(el.y, rowCount - el.x - 1)));
+        }
+        return treeModels;
     }
 }

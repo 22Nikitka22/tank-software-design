@@ -1,4 +1,4 @@
-package ru.mipt.bit.platformer.utils.command;
+package ru.mipt.bit.platformer.command;
 
 import ru.mipt.bit.platformer.interfaces.MovingGraphic;
 import ru.mipt.bit.platformer.objects.Direction;

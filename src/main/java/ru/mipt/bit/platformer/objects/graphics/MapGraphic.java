@@ -2,6 +2,7 @@ package ru.mipt.bit.platformer.objects.graphics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
+import org.springframework.stereotype.Component;
 import ru.mipt.bit.platformer.interfaces.BulletObserver;
 import ru.mipt.bit.platformer.interfaces.Graphic;
 import ru.mipt.bit.platformer.interfaces.MovingGraphic;
@@ -10,6 +11,7 @@ import ru.mipt.bit.platformer.objects.Level;
 import ru.mipt.bit.platformer.objects.models.BulletModel;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.objects.models.TankModel;
+import ru.mipt.bit.platformer.utils.TankAIController;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
 import java.util.Collection;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Component
 public class MapGraphic implements BulletObserver, TankObserver {
 
     private static final String TANK_PLAYER_PATH = "images/tank_blue.png";
@@ -43,12 +46,6 @@ public class MapGraphic implements BulletObserver, TankObserver {
         initializeGameObjects();
     }
 
-    public void render(float deltaTime) {
-        playerTank.update(tileMovement, deltaTime);
-        enemyTanks.forEach(tank -> tank.update(tileMovement, deltaTime));
-        List.copyOf(bullets).forEach(bullet -> bullet.update(tileMovement, deltaTime));
-    }
-
     public void render(Batch batch) {
         playerTank.render(batch);
         enemyTanks.forEach(tank -> tank.render(batch));
@@ -56,7 +53,11 @@ public class MapGraphic implements BulletObserver, TankObserver {
         bullets.forEach(bullet -> bullet.render(batch));
     }
 
-    public void renderLevel() {
+    public void renderLevel(float deltaTime) {
+        enemyTanks.forEach(TankAIController::control);
+        playerTank.update(tileMovement, deltaTime);
+        enemyTanks.forEach(tank -> tank.update(tileMovement, deltaTime));
+        List.copyOf(bullets).forEach(bullet -> bullet.update(tileMovement, deltaTime));
         gameLevel.render();
     }
 
@@ -126,9 +127,5 @@ public class MapGraphic implements BulletObserver, TankObserver {
 
     public MovingGraphic getPlayerTank() {
         return playerTank;
-    }
-
-    public Collection<MovingGraphic> getEnemyTanks() {
-        return enemyTanks;
     }
 }

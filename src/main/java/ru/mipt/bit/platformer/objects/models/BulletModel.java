@@ -14,7 +14,7 @@ import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
 
 public class BulletModel implements Obstacle {
 
-    private static final float MOVEMENT_SPEED = 0.4f;
+    private static final float MOVEMENT_SPEED = 0.2f;
     private static final float MOVEMENT_COMPLETE = 1.0f;
 
     private final GridPoint2 currentCoordinates;
