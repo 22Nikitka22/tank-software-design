@@ -7,6 +7,7 @@ import ru.mipt.bit.platformer.command.MoveTankCommand;
 import ru.mipt.bit.platformer.command.ShotCommand;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.graphics.MapGraphic;
+import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.utils.ButtonHandler;
 
 import java.util.List;
@@ -19,9 +20,11 @@ import static com.badlogic.gdx.Input.Keys.SPACE;
 public class ButtonHandlerConfiguration {
 
     private final MapGraphic mapGraphic;
+    private final MapModel mapModel;
 
-    public ButtonHandlerConfiguration(MapGraphic mapGraphic) {
+    public ButtonHandlerConfiguration(MapGraphic mapGraphic, MapModel mapModel) {
         this.mapGraphic = mapGraphic;
+        this.mapModel = mapModel;
     }
 
     @Bean
@@ -40,7 +43,7 @@ public class ButtonHandlerConfiguration {
                         new MoveTankCommand(mapGraphic.getPlayerTank(), direction), true));
 
         inputHandler.addButtonAction(List.of(L), new HealthBarCommand(), false);
-        inputHandler.addButtonAction(List.of(SPACE), new ShotCommand(mapGraphic.getPlayerTank().getModel()), false);
+        inputHandler.addButtonAction(List.of(SPACE), new ShotCommand(mapModel.getPlayer()), false);
 
         return inputHandler;
     }
