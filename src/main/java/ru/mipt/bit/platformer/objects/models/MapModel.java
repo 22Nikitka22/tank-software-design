@@ -1,9 +1,12 @@
 package ru.mipt.bit.platformer.objects.models;
 
 import com.badlogic.gdx.math.GridPoint2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.mipt.bit.platformer.interfaces.Obstacle;
 import java.util.*;
 
+@Component
 public class MapModel {
 
     private final Set<TreeModel> trees = new HashSet<>();
@@ -14,6 +17,7 @@ public class MapModel {
     private int rowCount;
     private int columnCount;
 
+    @Autowired
     public MapModel() { }
 
     public Set<TreeModel> getTrees() {

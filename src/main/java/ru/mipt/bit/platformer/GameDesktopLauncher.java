@@ -7,15 +7,14 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import org.springframework.stereotype.Component;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.mipt.bit.platformer.configuration.Configuration;
 import ru.mipt.bit.platformer.objects.graphics.MapGraphic;
 import ru.mipt.bit.platformer.utils.ButtonHandler;
 
-import javax.annotation.PostConstruct;
-
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 
-@Component
 public class GameDesktopLauncher implements ApplicationListener {
 
     private static final int WINDOW_WIDTH = 1280;
@@ -34,7 +33,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     @Override
     public void create() {
         spriteBatch = new SpriteBatch();
-        mapGraphic.create(spriteBatch);
+        mapGraphic.initializeGraphics(spriteBatch);
+        mapGraphic.initializeGameObjects();
     }
 
     @Override
@@ -56,10 +56,14 @@ public class GameDesktopLauncher implements ApplicationListener {
         mapGraphic.dispose();
     }
 
-    @PostConstruct
-    public void start() {
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(Configuration.class);
+
         Lwjgl3ApplicationConfiguration config = createWindowConfig();
-        new Lwjgl3Application(this, config);
+        new Lwjgl3Application(new GameDesktopLauncher(
+                context.getBean(MapGraphic.class),
+                context.getBean(ButtonHandler.class)
+        ), config);
     }
 
     private void clearScreen() {

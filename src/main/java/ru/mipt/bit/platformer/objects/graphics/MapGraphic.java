@@ -2,6 +2,8 @@ package ru.mipt.bit.platformer.objects.graphics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.mipt.bit.platformer.interfaces.BulletObserver;
 import ru.mipt.bit.platformer.interfaces.Graphic;
@@ -14,6 +16,7 @@ import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TankAIController;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
+import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -23,11 +26,16 @@ import java.util.stream.Collectors;
 @Component
 public class MapGraphic implements BulletObserver, TankObserver {
 
-    private static final String TANK_PLAYER_PATH = "images/tank_blue.png";
-    private static final String TANK_PATH = "images/tank_green.png";
-    private static final String TREE_PATH = "images/greenTree.png";
-    private static final String BULLET_PATH = "images/bullet.png";
-    private static final String LEVEL_FILE = "level.tmx";
+    @Value("${app.tank.player.path}")
+    private String TANK_PLAYER_PATH;
+    @Value("${app.tank.path}")
+    private String TANK_PATH;
+    @Value("${app.tree.path}")
+    private String TREE_PATH;
+    @Value("${app.bullet.path}")
+    private String BULLET_PATH;
+    @Value("${app.level.path}")
+    private String LEVEL_FILE;
 
     private Level gameLevel;
     private TileMovement tileMovement;
@@ -37,13 +45,9 @@ public class MapGraphic implements BulletObserver, TankObserver {
     private final Collection<BulletGraphic> bullets = new HashSet<>();
     private final MapModel mapModel;
 
+    @Autowired
     public MapGraphic(MapModel mapModel) {
         this.mapModel = mapModel;
-    }
-
-    public void create(Batch batch) {
-        initializeGraphics(batch);
-        initializeGameObjects();
     }
 
     public void render(Batch batch) {
@@ -103,12 +107,13 @@ public class MapGraphic implements BulletObserver, TankObserver {
         }
     }
 
-    private void initializeGraphics(Batch batch) {
+    public void initializeGraphics(Batch batch) {
         gameLevel = new Level(LEVEL_FILE, batch);
         tileMovement = new TileMovement(gameLevel.getLayer(), Interpolation.smooth);
     }
 
-    private void initializeGameObjects() {
+    @PostConstruct
+    public void initializeGameObjects() {
         playerTank = new HealthBarDecorator(new TankGraphic(TANK_PLAYER_PATH, mapModel.getPlayer()));
         playerTank.getModel().setBulletObserver(this);
         playerTank.getModel().setTankObserver(this);
