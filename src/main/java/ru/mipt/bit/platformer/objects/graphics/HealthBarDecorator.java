@@ -20,9 +20,11 @@ public class HealthBarDecorator implements MovingGraphic {
     private static final int HEALTH_BAR_Y_OFFSET = 90;
 
     private final MovingGraphic wrapped;
+    private final HealthBarModel healthBarModel;
 
-    public HealthBarDecorator(MovingGraphic wrapped) {
+    public HealthBarDecorator(MovingGraphic wrapped, HealthBarModel healthBarModel) {
         this.wrapped = wrapped;
+        this.healthBarModel = healthBarModel;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class HealthBarDecorator implements MovingGraphic {
     }
 
     private void renderHealthBar(Batch batch) {
-        if (!HealthBarModel.getVisible()) {
+        if (!healthBarModel.getVisible()) {
             return;
         }
 

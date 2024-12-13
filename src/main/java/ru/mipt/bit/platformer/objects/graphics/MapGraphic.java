@@ -11,6 +11,7 @@ import ru.mipt.bit.platformer.interfaces.MovingGraphic;
 import ru.mipt.bit.platformer.interfaces.TankObserver;
 import ru.mipt.bit.platformer.objects.Level;
 import ru.mipt.bit.platformer.objects.models.BulletModel;
+import ru.mipt.bit.platformer.objects.models.HealthBarModel;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TankAIController;
@@ -114,13 +115,16 @@ public class MapGraphic implements BulletObserver, TankObserver {
 
     @PostConstruct
     public void initializeGameObjects() {
-        playerTank = new HealthBarDecorator(new TankGraphic(TANK_PLAYER_PATH, mapModel.getPlayer()));
+        playerTank = new HealthBarDecorator(
+                new TankGraphic(TANK_PLAYER_PATH, mapModel.getPlayer()),
+                new HealthBarModel(true)
+        );
         playerTank.getModel().setBulletObserver(this);
         playerTank.getModel().setTankObserver(this);
 
         enemyTanks = mapModel.getTanks().stream()
                 .map(tank -> new TankGraphic(TANK_PATH, tank))
-                .map(HealthBarDecorator::new)
+                .map(tank -> new HealthBarDecorator(tank, new HealthBarModel(true)))
                 .peek(healthBarDecorator -> healthBarDecorator.getModel().setBulletObserver(this))
                 .peek(healthBarDecorator -> healthBarDecorator.getModel().setTankObserver(this))
                 .collect(Collectors.toList());

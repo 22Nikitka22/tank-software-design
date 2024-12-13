@@ -2,13 +2,17 @@ package ru.mipt.bit.platformer.objects.models;
 
 public class HealthBarModel {
 
-    private static boolean visible = true;
+    private boolean visible;
 
-    public static boolean getVisible() {
+    public HealthBarModel(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean getVisible() {
         return visible;
     }
 
-    public static void switchVisible() {
+    public void switchVisible() {
         visible = !visible;
     }
 }
