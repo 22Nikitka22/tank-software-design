@@ -13,6 +13,7 @@ import ru.mipt.bit.platformer.loader.MapFileGraphic;
 import ru.mipt.bit.platformer.loader.MapRandomGraphic;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.graphics.MapGraphic;
+import ru.mipt.bit.platformer.objects.models.HealthBarModel;
 import ru.mipt.bit.platformer.utils.ButtonHandler;
 
 import java.util.List;
@@ -55,7 +56,7 @@ public class Configuration {
     @Bean
     public ButtonHandler buttonHandler(MapGraphic mapGraphic) {
         ButtonHandler inputHandler = new ButtonHandler();
-        MovingGraphic playerTank = mapGraphic.getPlayerTank();
+        MovingGraphic playerTank = mapGraphic.getPlayerGraphic();
 
         Map<Direction, List<Integer>> controls = Map.of(
                 Direction.UP, List.of(UP, W),
@@ -68,8 +69,8 @@ public class Configuration {
                 inputHandler.addButtonAction(keys,
                         new MoveTankCommand(playerTank, direction), true));
 
-        inputHandler.addButtonAction(List.of(L), new HealthBarCommand(), false);
-        inputHandler.addButtonAction(List.of(SPACE), new ShotCommand(playerTank.getModel()), false);
+        inputHandler.addButtonAction(List.of(L), new HealthBarCommand(new HealthBarModel(true)), false);
+        inputHandler.addButtonAction(List.of(SPACE), new ShotCommand(mapGraphic.getPlayerModel()), false);
 
         return inputHandler;
     }
