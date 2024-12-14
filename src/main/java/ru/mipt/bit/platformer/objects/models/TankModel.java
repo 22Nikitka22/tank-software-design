@@ -11,7 +11,7 @@ import java.util.Set;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
 
-public class TankModel implements Obstacle, Shooter, Healthable, MovingModel {
+public class TankModel implements Shooter, Healthable, MovingModel {
 
     private static final float MOVEMENT_SPEED = 0.4f;
     private static final float MOVEMENT_COMPLETE = 1.0f;

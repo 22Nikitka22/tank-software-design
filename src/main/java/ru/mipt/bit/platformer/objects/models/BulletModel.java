@@ -13,7 +13,7 @@ import java.util.Set;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
 
-public class BulletModel implements Obstacle, MovingModel {
+public class BulletModel implements MovingModel {
 
     private static final float MOVEMENT_SPEED = 0.2f;
     private static final float MOVEMENT_COMPLETE = 1.0f;

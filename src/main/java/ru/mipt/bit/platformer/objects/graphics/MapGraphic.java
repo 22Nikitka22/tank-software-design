@@ -71,6 +71,7 @@ public class MapGraphic implements Observer {
 
     @Override
     public void objectAppeared(MovingModel model, String name) {
+        mapModel.addBullet(model);
         if (Objects.equals(name, "bullet")) {
             BulletGraphic bulletGraphic = new BulletGraphic(BULLET_PATH, model);
             bullets.add(bulletGraphic);

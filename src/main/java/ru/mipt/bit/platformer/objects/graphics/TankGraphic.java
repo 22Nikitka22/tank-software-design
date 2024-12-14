@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.interfaces.MovingGraphic;
+import ru.mipt.bit.platformer.interfaces.MovingModel;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TileMovement;
@@ -17,9 +18,9 @@ public class TankGraphic implements MovingGraphic {
     private final Texture texture;
     private final TextureRegion graphics;
     private final Rectangle rectangle;
-    private final TankModel model;
+    private final MovingModel model;
 
-    public TankGraphic(String texturePath, TankModel tankModel) {
+    public TankGraphic(String texturePath, MovingModel tankModel) {
         this.texture = new Texture(texturePath);
         this.graphics = new TextureRegion(texture);
         this.rectangle = createBoundingRectangle(graphics);
@@ -55,7 +56,7 @@ public class TankGraphic implements MovingGraphic {
         return rectangle;
     }
 
-    public TankModel getModel() {
+    public MovingModel getModel() {
         return model;
     }
 }
