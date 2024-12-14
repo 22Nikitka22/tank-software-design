@@ -11,7 +11,7 @@ import java.util.*;
 public class MapModel {
 
     private final Set<TreeModel> trees = new HashSet<>();
-    private final Set<MovingModel> tanks = new HashSet<>();
+    private final Set<TankModel> tanks = new HashSet<>();
     private final Set<MovingModel> bullets = new HashSet<>();
     private TankModel player;
 
@@ -30,7 +30,7 @@ public class MapModel {
         this.trees.addAll(trees);
     }
 
-    public Set<MovingModel> getTanks() {
+    public Set<TankModel> getTanks() {
         return tanks;
     }
 

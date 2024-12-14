@@ -12,6 +12,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import ru.mipt.bit.platformer.configuration.Configuration;
 import ru.mipt.bit.platformer.objects.graphics.MapGraphic;
 import ru.mipt.bit.platformer.utils.ButtonHandler;
+import ru.mipt.bit.platformer.utils.TankAIController;
 
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
 

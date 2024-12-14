@@ -12,6 +12,7 @@ import ru.mipt.bit.platformer.objects.models.HealthBarModel;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TankAIController;
+import ru.mipt.bit.platformer.utils.TankCommand;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
 import javax.annotation.PostConstruct;
@@ -39,6 +40,7 @@ public class MapGraphic implements Observer {
     private Collection<MovingGraphic> enemyTanks;
     private Collection<Graphic> trees;
     private final Collection<MovingGraphic> bullets = new HashSet<>();
+    private TankAIController tankAIController;
     private final MapModel mapModel;
 
     @Autowired
@@ -54,7 +56,7 @@ public class MapGraphic implements Observer {
     }
 
     public void renderLevel(float deltaTime) {
-        enemyTanks.forEach(TankAIController::control);
+        tankAIController.control();
         playerTank.update(tileMovement, deltaTime);
         enemyTanks.forEach(tank -> tank.update(tileMovement, deltaTime));
         List.copyOf(bullets).forEach(bullet -> bullet.update(tileMovement, deltaTime));
@@ -121,10 +123,8 @@ public class MapGraphic implements Observer {
         trees = mapModel.getTrees().stream()
                 .map(tree -> new TreeGraphic(TREE_PATH, tree, gameLevel.getLayer()))
                 .collect(Collectors.toList());
-    }
 
-    public MovingGraphic getPlayerGraphic() {
-        return playerTank;
+        tankAIController = new TankAIController(TankCommand.create(mapModel.getTanks()));
     }
 
     public TankModel getPlayerModel() {

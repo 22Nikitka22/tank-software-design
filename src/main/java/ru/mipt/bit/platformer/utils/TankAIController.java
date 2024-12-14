@@ -1,26 +1,22 @@
 package ru.mipt.bit.platformer.utils;
 
-import ru.mipt.bit.platformer.interfaces.MovingGraphic;
-import ru.mipt.bit.platformer.objects.Direction;
+import ru.mipt.bit.platformer.interfaces.Command;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TankAIController {
+    private final List<List<Command>> commands;
 
-    private static final Direction[] DIRECTIONS = {
-            Direction.UP,
-            Direction.DOWN,
-            Direction.LEFT,
-            Direction.RIGHT
-    };
+    public TankAIController(List<List<Command>> commands) {
+        this.commands = commands;
+    }
 
-    public static void control(MovingGraphic tank) {
-        int action = ThreadLocalRandom.current().nextInt(5);
-
-        if (action == 4) {
-            tank.getModel().shoot();
-        } else {
-            tank.move(DIRECTIONS[action]);
+    public void control() {
+        for (var commandsForAI : commands) {
+            int action = ThreadLocalRandom.current().nextInt(commands.size());
+            var command = commandsForAI.get(action);
+            command.execute();
         }
     }
 }
