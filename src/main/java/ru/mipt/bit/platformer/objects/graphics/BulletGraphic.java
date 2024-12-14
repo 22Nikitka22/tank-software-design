@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.interfaces.MovingGraphic;
-import ru.mipt.bit.platformer.interfaces.PlayingModel;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.models.BulletModel;
+import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.createBoundingRectangle;
@@ -52,7 +52,7 @@ public class BulletGraphic implements MovingGraphic {
     }
 
     @Override
-    public PlayingModel getModel() {
+    public TankModel getModel() {
         return null;
     }
 

@@ -1,11 +1,8 @@
 package ru.mipt.bit.platformer.objects.models;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.interfaces.BulletObserver;
-import ru.mipt.bit.platformer.interfaces.PlayingModel;
-import ru.mipt.bit.platformer.interfaces.TankObserver;
+import ru.mipt.bit.platformer.interfaces.*;
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.interfaces.Obstacle;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,7 +11,7 @@ import java.util.Set;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
 
-public class TankModel implements Obstacle, PlayingModel {
+public class TankModel implements Obstacle, Shooter, Healthable {
 
     private static final float MOVEMENT_SPEED = 0.4f;
     private static final float MOVEMENT_COMPLETE = 1.0f;
