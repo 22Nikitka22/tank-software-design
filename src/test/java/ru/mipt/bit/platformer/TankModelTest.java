@@ -1,37 +1,55 @@
 package ru.mipt.bit.platformer;
 
-import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.objects.models.TankModel;
-import com.badlogic.gdx.math.GridPoint2;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TankModelTest {
+import ru.mipt.bit.platformer.objects.Direction;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
+import ru.mipt.bit.platformer.objects.models.TankModel;
+import com.badlogic.gdx.math.GridPoint2;
+import ru.mipt.bit.platformer.objects.models.TreeModel;
 
-    @Test
-    public void testMoveWithObstacle() {
-        Direction direction = Direction.LEFT;
-        GridPoint2 currentCoordinates = new GridPoint2(2, 3);
-        GridPoint2 obstacleCoordinates = new GridPoint2(1, 3);
-        TankModel tankModel = new TankModel(currentCoordinates);
+import java.util.HashSet;
+import java.util.Set;
 
-        tankModel.move(direction, obstacleCoordinates);
+class TankModelTest {
 
-        Assertions.assertEquals(tankModel.getCoordinates(), currentCoordinates);
-        Assertions.assertEquals(tankModel.getRotation(), direction.getRotation());
+    private TankModel tank;
+    private Set<Obstacle> obstacles;
+    private static final int ROW_COUNT = 5;
+    private static final int COLUMN_COUNT = 5;
+
+    @BeforeEach
+    void setUp() {
+        GridPoint2 initialCoordinates = new GridPoint2(2, 2);
+        tank = new TankModel(initialCoordinates);
+        obstacles = new HashSet<>();
     }
 
     @Test
-    public void testMoveWithoutObstacle() {
-        Direction direction = Direction.UP;
-        GridPoint2 currentCoordinates = new GridPoint2(1, 2);
-        GridPoint2 destinationCoordinates = new GridPoint2(1, 3);
-        GridPoint2 obstacleCoordinates = new GridPoint2(0, 0);
-        TankModel tankModel = new TankModel(currentCoordinates);
+    void testInitialization() {
+        assertEquals(new GridPoint2(2, 2), tank.getCoordinates());
+        assertEquals(0.0f, tank.getRotation());
+    }
 
-        tankModel.move(direction, obstacleCoordinates);
+    @Test
+    void testMoveWithoutObstacles() {
+        tank.move(Direction.UP, obstacles, ROW_COUNT, COLUMN_COUNT);
+        assertEquals(new GridPoint2(2, 3), tank.getCoordinates());
+    }
 
-        Assertions.assertEquals(tankModel.getCoordinates(), destinationCoordinates);
-        Assertions.assertEquals(tankModel.getRotation(), direction.getRotation());
+    @Test
+    void testMoveWithObstacles() {
+        obstacles.add(new TreeModel(new GridPoint2(2, 3)));
+        tank.move(Direction.UP, obstacles, ROW_COUNT, COLUMN_COUNT);
+        assertEquals(new GridPoint2(2, 2), tank.getCoordinates());
+    }
+
+    @Test
+    void testMoveOutOfBounds() {
+        tank.move(Direction.RIGHT, obstacles, 3, 3);
+        assertEquals(new GridPoint2(2, 2), tank.getCoordinates());
     }
 }
