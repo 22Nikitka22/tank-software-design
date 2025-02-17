@@ -1,14 +1,17 @@
 package ru.mipt.bit.platformer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.badlogic.gdx.math.GridPoint2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.mipt.bit.platformer.interfaces.Obstacle;
+import ru.mipt.bit.platformer.objects.Direction;
+import ru.mipt.bit.platformer.objects.models.BulletModel;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.objects.models.TreeModel;
+
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,57 +19,99 @@ import java.util.Set;
 class MapModelTest {
 
     private MapModel mapModel;
-    private Set<TreeModel> trees;
-    private Set<TankModel> tanks;
-    private TankModel player;
 
     @BeforeEach
     void setUp() {
-        trees = new HashSet<>();
-        tanks = new HashSet<>();
-        player = new TankModel(new GridPoint2(1, 1)); // Assuming PlayerObstacle implements Obstacle
-
-        // Add some mock obstacles
-        trees.add(new TreeModel(new GridPoint2(0, 0))); // Assuming TreeObstacle implements Obstacle
-        trees.add(new TreeModel(new GridPoint2(0, 1)));
-        tanks.add(new TankModel(new GridPoint2(1, 0))); // Assuming TankObstacle implements Obstacle
-
-        mapModel = new MapModel(trees, tanks, player, 5, 5);
+        mapModel = new MapModel();
     }
 
     @Test
-    void testInitialization() {
-        assertEquals(5, mapModel.getRowCount());
-        assertEquals(5, mapModel.getColumnCount());
-        assertEquals(trees, mapModel.getTrees());
-        assertEquals(tanks, mapModel.getTanks());
-        assertEquals(player, mapModel.getPlayer());
+    void testSetAndGetTrees() {
+        GridPoint2 treePosition = new GridPoint2(1, 1);
+        TreeModel tree = new TreeModel(treePosition);
+        Set<TreeModel> trees = new HashSet<>();
+        trees.add(tree);
+        mapModel.setTrees(trees);
+
+        assertEquals(1, mapModel.getTrees().size());
+        assertTrue(mapModel.getTrees().contains(tree));
+    }
+
+    @Test
+    void testSetAndGetTanks() {
+        GridPoint2 tankPosition = new GridPoint2(2, 2);
+        TankModel tank = new TankModel(tankPosition, mapModel);
+        Set<TankModel> tanks = new HashSet<>();
+        tanks.add(tank);
+        mapModel.setTanks(tanks);
+
+        assertEquals(1, mapModel.getTanks().size());
+        assertTrue(mapModel.getTanks().contains(tank));
+    }
+
+    @Test
+    void testAddAndRemoveBullet() {
+        GridPoint2 bulletPosition = new GridPoint2(3, 3);
+        Direction bulletDirection = Direction.UP;
+        BulletModel bullet = new BulletModel(bulletPosition, bulletDirection, mapModel);
+        mapModel.addBullet(bullet);
+
+        assertEquals(1, mapModel.getBullets().size());
+        assertTrue(mapModel.getBullets().contains(bullet));
+
+        mapModel.removeBullet(bullet);
+        assertEquals(0, mapModel.getBullets().size());
+    }
+
+    @Test
+    void testRemoveTank() {
+        GridPoint2 tankPosition = new GridPoint2(2, 2);
+        TankModel tank = new TankModel(tankPosition, mapModel);
+        mapModel.setTanks(Set.of(tank)); // Set the tank
+
+        assertEquals(1, mapModel.getTanks().size());
+        mapModel.removeTank(tank);
+        assertEquals(0, mapModel.getTanks().size());
+    }
+
+    @Test
+    void testSetPlayer() {
+        GridPoint2 playerPosition = new GridPoint2(3, 3);
+        TankModel playerTank = new TankModel(playerPosition, mapModel);
+        mapModel.setPlayer(playerTank);
+
+        assertEquals(playerTank, mapModel.getPlayer());
+    }
+
+    @Test
+    void testSetMapSize() {
+        mapModel.setMapSize(10, 10);
+        assertTrue(mapModel.isOutOfBounds(new GridPoint2(11, 5)));
+        assertTrue(mapModel.isOutOfBounds(new GridPoint2(-1, 5)));
+        assertFalse(mapModel.isOutOfBounds(new GridPoint2(5, 5)));
     }
 
     @Test
     void testGetObstacles() {
-        Set<Obstacle> expectedObstacles = new HashSet<>(trees);
-        expectedObstacles.addAll(tanks);
-        expectedObstacles.add(player);
+        GridPoint2 tankPosition = new GridPoint2(2, 2);
+        GridPoint2 treePosition = new GridPoint2(1, 1);
+        GridPoint2 bulletPosition = new GridPoint2(3, 3);
+        Direction bulletDirection = Direction.UP;
 
-        assertEquals(expectedObstacles, mapModel.getObstacles());
-    }
+        TankModel tank = new TankModel(tankPosition, mapModel);
+        mapModel.setPlayer(tank);
 
-    @Test
-    void testGetTreesReturnsUnmodifiableSet() {
-        Set<TreeModel> treesFromModel = mapModel.getTrees();
-        assertThrows(UnsupportedOperationException.class, () -> treesFromModel.add(new TreeModel(new GridPoint2(2, 2))));
-    }
+        BulletModel bullet = new BulletModel(bulletPosition, bulletDirection, mapModel);
+        mapModel.addBullet(bullet);
 
-    @Test
-    void testGetTanksReturnsUnmodifiableSet() {
-        Set<TankModel> tanksFromModel = mapModel.getTanks();
-        assertThrows(UnsupportedOperationException.class, () -> tanksFromModel.add(new TankModel(new GridPoint2(2, 2))));
-    }
+        Set<TreeModel> trees = new HashSet<>();
+        trees.add(new TreeModel(treePosition));
+        mapModel.setTrees(trees);
 
-    @Test
-    void testGetObstaclesReturnsUnmodifiableSet() {
-        Set<Obstacle> obstaclesFromModel = mapModel.getObstacles();
-        assertThrows(UnsupportedOperationException.class, () -> obstaclesFromModel.add(new TreeModel(new GridPoint2(2, 2))));
+        Set<Obstacle> obstacles = mapModel.getObstacles();
+
+        assertTrue(obstacles.contains(tank));
+        assertTrue(obstacles.contains(trees.iterator().next()));
+        assertTrue(obstacles.contains(bullet));
     }
 }

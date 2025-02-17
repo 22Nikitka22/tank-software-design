@@ -1,34 +1,35 @@
 package ru.mipt.bit.platformer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-
-import ru.mipt.bit.platformer.objects.models.TreeModel;
 import com.badlogic.gdx.math.GridPoint2;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import ru.mipt.bit.platformer.objects.models.TreeModel;
+
+import java.util.Collection;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TreeModelTest {
 
-    private TreeModel treeModel;
-    private static final GridPoint2 INITIAL_POSITION = new GridPoint2(5, 10);
+    private TreeModel tree;
+    private GridPoint2 initialPosition;
 
     @BeforeEach
     public void setUp() {
-        treeModel = new TreeModel(INITIAL_POSITION);
+        initialPosition = new GridPoint2(3, 4);
+        tree = new TreeModel(initialPosition);
     }
 
     @Test
-    public void testInitialization() {
-        assertEquals(INITIAL_POSITION, treeModel.getCoordinates());
+    public void testGetCoordinates() {
+        Collection<GridPoint2> coordinates = tree.getCoordinates();
+        assertEquals(1, coordinates.size(), "Tree should have exactly one coordinate.");
+        assertTrue(coordinates.contains(initialPosition), "Tree coordinates should contain the initial position.");
     }
 
     @Test
-    public void testGetCoordinatesReturnsNewInstance() {
-        GridPoint2 coordinates = treeModel.getCoordinates();
-        coordinates.set(0, 0);
-
-        assertNotEquals(new GridPoint2(0, 0), treeModel.getCoordinates());
-        assertEquals(INITIAL_POSITION, treeModel.getCoordinates());
+    public void testGetCoordinate() {
+        GridPoint2 coordinate = tree.getCoordinate();
+        assertEquals(initialPosition, coordinate, "getCoordinate() should return the initial position.");
     }
 }

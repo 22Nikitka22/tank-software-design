@@ -2,10 +2,8 @@ package ru.mipt.bit.platformer.utils;
 
 import ru.mipt.bit.platformer.interfaces.MovingGraphic;
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.interfaces.Obstacle;
 
-import java.util.Random;
-import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TankAIController {
 
@@ -16,10 +14,13 @@ public class TankAIController {
             Direction.RIGHT
     };
 
-    private static final Random RANDOM = new Random();
+    public static void control(MovingGraphic tank) {
+        int action = ThreadLocalRandom.current().nextInt(5);
 
-    public static void control(MovingGraphic tank, Set<Obstacle> obstacles, int rowCount, int columnCount) {
-        int randomIndex = RANDOM.nextInt(DIRECTIONS.length);
-        tank.move(DIRECTIONS[randomIndex], obstacles, rowCount, columnCount);
+        if (action == 4) {
+            tank.getModel().shoot();
+        } else {
+            tank.move(DIRECTIONS[action]);
+        }
     }
 }

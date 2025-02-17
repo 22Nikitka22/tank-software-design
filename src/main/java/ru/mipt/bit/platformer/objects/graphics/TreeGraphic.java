@@ -20,7 +20,7 @@ public class TreeGraphic implements Graphic {
         this.texture = new Texture(texturePath);
         this.graphics = new TextureRegion(texture);
         this.rectangle = createBoundingRectangle(graphics);
-        moveRectangleAtTileCenter(layer, rectangle, treeModel.getCoordinates());
+        moveRectangleAtTileCenter(layer, rectangle, treeModel.getCoordinate());
     }
 
     @Override
