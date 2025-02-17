@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import ru.mipt.bit.platformer.interfaces.MovingGraphic;
 import ru.mipt.bit.platformer.objects.Direction;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Graphic;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
+import ru.mipt.bit.platformer.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.utils.TileMovement;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.createBoundingRectangle;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.drawTextureRegionUnscaled;
 
-public class TankGraphic implements Graphic {
+public class TankGraphic implements MovingGraphic {
 
     private final Texture texture;
     private final TextureRegion graphics;
@@ -47,5 +47,15 @@ public class TankGraphic implements Graphic {
     @Override
     public void update(TileMovement tileMovement,  float deltaTime) {
         model.update(tileMovement, deltaTime, rectangle);
+    }
+
+    @Override
+    public TankModel getModel() {
+        return model;
+    }
+
+    @Override
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 }

@@ -13,18 +13,22 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 
+import ru.mipt.bit.platformer.interfaces.MovingGraphic;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.Level;
+import ru.mipt.bit.platformer.objects.graphics.HealthBarDecorator;
 import ru.mipt.bit.platformer.objects.graphics.map.MapFileGraphic;
 import ru.mipt.bit.platformer.objects.graphics.map.MapRandomGraphic;
 import ru.mipt.bit.platformer.objects.graphics.TankGraphic;
 import ru.mipt.bit.platformer.objects.graphics.TreeGraphic;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.MapLoader;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.Graphic;
+import ru.mipt.bit.platformer.interfaces.MapLoader;
+import ru.mipt.bit.platformer.interfaces.Graphic;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.utils.ButtonHandler;
 import ru.mipt.bit.platformer.utils.TankAIController;
 import ru.mipt.bit.platformer.utils.TileMovement;
+import ru.mipt.bit.platformer.utils.command.HealthBarCommand;
+import ru.mipt.bit.platformer.utils.command.MoveTankCommand;
 
 import static com.badlogic.gdx.Input.Keys.*;
 import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
@@ -43,8 +47,8 @@ public class GameDesktopLauncher implements ApplicationListener {
     private Batch spriteBatch;
     private Level gameLevel;
     private TileMovement tileMovement;
-    private Graphic playerTank;
-    private Collection<Graphic> enemyTanks;
+    private MovingGraphic playerTank;
+    private Collection<MovingGraphic> enemyTanks;
     private Collection<Graphic> trees;
 
     public GameDesktopLauncher(MapLoader mapLoader) {
@@ -89,10 +93,11 @@ public class GameDesktopLauncher implements ApplicationListener {
     }
 
     private void initializeGameObjects() {
-        playerTank = new TankGraphic(TANK_PLAYER_PATH, gameMap.getPlayer());
+        playerTank = new HealthBarDecorator(new TankGraphic(TANK_PLAYER_PATH, gameMap.getPlayer()));
 
         enemyTanks = gameMap.getTanks().stream()
                 .map(tank -> new TankGraphic(TANK_PATH, tank))
+                .map(HealthBarDecorator::new)
                 .collect(Collectors.toList());
 
         trees = gameMap.getTrees().stream()
@@ -109,9 +114,15 @@ public class GameDesktopLauncher implements ApplicationListener {
         );
 
         controls.forEach((direction, keys) ->
-                inputHandler.addButtonAction(keys, () ->
-                        playerTank.move(direction, gameMap.getObstacles(),
-                                gameMap.getRowCount(), gameMap.getColumnCount())));
+                inputHandler.addButtonAction(keys,
+                        new MoveTankCommand(
+                                playerTank, direction,
+                                gameMap.getObstacles(),
+                                gameMap.getRowCount(),
+                                gameMap.getColumnCount()
+                        ), true));
+
+        inputHandler.addButtonAction(List.of(L), new HealthBarCommand(), false);
     }
 
     private void clearScreen() {

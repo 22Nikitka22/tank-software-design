@@ -1,7 +1,7 @@
 package ru.mipt.bit.platformer.objects.graphics.map;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.objects.graphics.interfaces.MapLoader;
+import ru.mipt.bit.platformer.interfaces.MapLoader;
 import ru.mipt.bit.platformer.objects.models.MapModel;
 import ru.mipt.bit.platformer.objects.models.TankModel;
 import ru.mipt.bit.platformer.objects.models.TreeModel;
