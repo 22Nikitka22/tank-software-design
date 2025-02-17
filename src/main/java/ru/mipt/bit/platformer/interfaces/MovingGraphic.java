@@ -7,6 +7,6 @@ import ru.mipt.bit.platformer.utils.TileMovement;
 public interface MovingGraphic extends Graphic {
     void move(Direction direction);
     void update(TileMovement tileMovement, float deltaTime);
-    PlayingModel getModel();
+    MovingModel getModel();
     Rectangle getRectangle();
 }

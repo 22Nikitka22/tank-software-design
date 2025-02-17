@@ -1,7 +1,8 @@
 package ru.mipt.bit.platformer.objects.models;
 
 import com.badlogic.gdx.math.GridPoint2;
-import ru.mipt.bit.platformer.interfaces.BulletObserver;
+import ru.mipt.bit.platformer.interfaces.MovingModel;
+import ru.mipt.bit.platformer.interfaces.Observer;
 import ru.mipt.bit.platformer.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.Direction;
 
@@ -12,9 +13,9 @@ import java.util.Set;
 import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.continueProgress;
 
-public class BulletModel implements Obstacle {
+public class BulletModel implements MovingModel {
 
-    private static final float MOVEMENT_SPEED = 0.4f;
+    private static final float MOVEMENT_SPEED = 0.2f;
     private static final float MOVEMENT_COMPLETE = 1.0f;
 
     private final GridPoint2 currentCoordinates;
@@ -23,7 +24,7 @@ public class BulletModel implements Obstacle {
     private final Direction direction;
 
     private final MapModel map;
-    private BulletObserver bulletObserver;
+    private Observer observer;
 
     public BulletModel(GridPoint2 initialCoordinates, Direction direction, MapModel map) {
         this.currentCoordinates = new GridPoint2(initialCoordinates);
@@ -33,19 +34,23 @@ public class BulletModel implements Obstacle {
         this.map = map;
     }
 
+    @Override
     public GridPoint2 getDestinationCoordinates() {
         return destinationCoordinates;
     }
 
+    @Override
     public float getMovementProgress() {
         return movementProgress;
     }
 
+    @Override
     public float getRotation() {
         return direction.getRotation();
     }
 
-    public void move() {
+    @Override
+    public void move(Direction direction) {
         if (isMovementComplete()) {
             GridPoint2 nextCoordinates = currentCoordinates.cpy().add(direction.getDirectionVector());
 
@@ -86,8 +91,8 @@ public class BulletModel implements Obstacle {
     }
 
     private void destroy() {
-        if (bulletObserver != null) {
-            bulletObserver.bulletDestroyed(this);
+        if (observer != null) {
+            observer.objectDestroyed(this, "bullet");
         }
         map.removeBullet(this);
     }
@@ -97,12 +102,13 @@ public class BulletModel implements Obstacle {
                 obstacle.getCoordinates().stream().anyMatch(coordinates::equals));
     }
 
+    @Override
     public void update(float deltaTime) {
         movementProgress = continueProgress(movementProgress, deltaTime, MOVEMENT_SPEED);
 
         if (isMovementComplete()) {
             currentCoordinates.set(destinationCoordinates);
-            move();
+            move(direction);
         }
     }
 
@@ -111,11 +117,17 @@ public class BulletModel implements Obstacle {
         return List.of(currentCoordinates, destinationCoordinates);
     }
 
+    @Override
     public GridPoint2 getCoordinate() {
         return currentCoordinates;
     }
 
-    public void setBulletObserver(BulletObserver bulletObserver) {
-        this.bulletObserver = bulletObserver;
+    @Override
+    public void setObjectObserver(Observer observer) {
+        this.observer = observer;
+    }
+
+    public float getHealth() {
+        return 100.0f;
     }
 }

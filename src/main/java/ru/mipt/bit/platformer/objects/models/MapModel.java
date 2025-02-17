@@ -1,19 +1,24 @@
 package ru.mipt.bit.platformer.objects.models;
 
 import com.badlogic.gdx.math.GridPoint2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ru.mipt.bit.platformer.interfaces.MovingModel;
 import ru.mipt.bit.platformer.interfaces.Obstacle;
 import java.util.*;
 
+@Component
 public class MapModel {
 
     private final Set<TreeModel> trees = new HashSet<>();
     private final Set<TankModel> tanks = new HashSet<>();
-    private final Set<BulletModel> bullets = new HashSet<>();
+    private final Set<MovingModel> bullets = new HashSet<>();
     private TankModel player;
 
     private int rowCount;
     private int columnCount;
 
+    @Autowired
     public MapModel() { }
 
     public Set<TreeModel> getTrees() {
@@ -42,11 +47,11 @@ public class MapModel {
         return obstacles;
     }
 
-    public Set<BulletModel> getBullets() {
+    public Set<MovingModel> getBullets() {
         return bullets;
     }
 
-    public void addBullet(BulletModel bulletModel) {
+    public void addBullet(MovingModel bulletModel) {
         bullets.add(bulletModel);
     }
 

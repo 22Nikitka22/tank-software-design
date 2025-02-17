@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import ru.mipt.bit.platformer.interfaces.MovingGraphic;
-import ru.mipt.bit.platformer.interfaces.PlayingModel;
+import ru.mipt.bit.platformer.interfaces.MovingModel;
 import ru.mipt.bit.platformer.objects.Direction;
 import ru.mipt.bit.platformer.objects.models.HealthBarModel;
 import ru.mipt.bit.platformer.utils.GdxGameUtils;
@@ -20,9 +20,11 @@ public class HealthBarDecorator implements MovingGraphic {
     private static final int HEALTH_BAR_Y_OFFSET = 90;
 
     private final MovingGraphic wrapped;
+    private final HealthBarModel healthBarModel;
 
-    public HealthBarDecorator(MovingGraphic wrapped) {
+    public HealthBarDecorator(MovingGraphic wrapped, HealthBarModel healthBarModel) {
         this.wrapped = wrapped;
+        this.healthBarModel = healthBarModel;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class HealthBarDecorator implements MovingGraphic {
     }
 
     @Override
-    public PlayingModel getModel() {
+    public MovingModel getModel() {
         return wrapped.getModel();
     }
 
@@ -57,7 +59,7 @@ public class HealthBarDecorator implements MovingGraphic {
     }
 
     private void renderHealthBar(Batch batch) {
-        if (!HealthBarModel.getVisible()) {
+        if (!healthBarModel.getVisible()) {
             return;
         }
 

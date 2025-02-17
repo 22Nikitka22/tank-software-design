@@ -1,13 +1,13 @@
-package ru.mipt.bit.platformer.utils.command;
+package ru.mipt.bit.platformer.command;
 
 import ru.mipt.bit.platformer.interfaces.Command;
-import ru.mipt.bit.platformer.interfaces.PlayingModel;
+import ru.mipt.bit.platformer.interfaces.Shooter;
 
 public class ShotCommand implements Command {
 
-    private final PlayingModel model;
+    private final Shooter model;
 
-    public ShotCommand(PlayingModel model) {
+    public ShotCommand(Shooter model) {
         this.model = model;
     }
 
