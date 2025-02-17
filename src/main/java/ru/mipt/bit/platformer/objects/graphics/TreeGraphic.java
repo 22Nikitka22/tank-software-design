@@ -6,11 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
+import ru.mipt.bit.platformer.objects.graphics.interfaces.Obstacle;
 import ru.mipt.bit.platformer.objects.models.TreeModel;
 
 import static ru.mipt.bit.platformer.utils.GdxGameUtils.*;
 
-public class TreeGraphic {
+public class TreeGraphic implements Obstacle {
     private final Texture texture;
     private final TextureRegion graphics;
     private final Rectangle rectangle;
